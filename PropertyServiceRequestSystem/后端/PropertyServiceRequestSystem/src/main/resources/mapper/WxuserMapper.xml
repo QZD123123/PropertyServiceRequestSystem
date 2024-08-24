@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gdpu.mapper.WxuserMapper">
+
+    <resultMap id="BaseResultMap" type="com.gdpu.pojo.Wxuser">
+            <id property="wxuserId" column="wxUser_id" jdbcType="INTEGER"/>
+            <result property="wxuserOpenid" column="wxUser_openid" jdbcType="VARCHAR"/>
+            <result property="wxuserSessionkey" column="wxUser_sessionkey" jdbcType="VARCHAR"/>
+            <result property="stuId" column="stu_id" jdbcType="INTEGER"/>
+            <result property="workerId" column="worker_id" jdbcType="INTEGER"/>
+            <result property="role" column="role" jdbcType="VARCHAR"/>
+            <result property="phone" column="phone" jdbcType="VARCHAR"/>
+            <result property="name" column="name" jdbcType="VARCHAR"/>
+            <result property="deleted" column="deleted" jdbcType="TINYINT"/>
+            <result property="createTime" column="create_time" jdbcType="DATE"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        wxUser_id,wxUser_openid,wxUser_sessionkey,
+        stu_id,worker_id,role,phone,name,deleted,create_time
+    </sql>
+
+    <insert id="insertNewWxuser" useGeneratedKeys="true" keyProperty="wxuserId">
+        INSERT INTO `wxuser`(wxUser_openid,wxUser_sessionkey,create_time)
+        values ( #{wxuser.wxuserOpenid} ,#{wxuser.wxuserSessionkey} ,#{wxuser.createTime} )
+    </insert>
+
+    <select id="findByPhone" resultType="com.gdpu.pojo.Wxuser">
+        select * from wxuser where wxuser.phone = #{phone}
+    </select>
+</mapper>

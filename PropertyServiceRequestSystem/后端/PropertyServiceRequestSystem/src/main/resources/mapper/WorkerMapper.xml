@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gdpu.mapper.WorkerMapper">
+
+    <resultMap id="BaseResultMap" type="com.gdpu.pojo.Worker">
+            <id property="workerId" column="worker_id" jdbcType="INTEGER"/>
+            <result property="workerPhone" column="worker_phone" jdbcType="VARCHAR"/>
+            <result property="workerName" column="worker_name" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        worker_id,worker_phone,worker_name
+    </sql>
+</mapper>

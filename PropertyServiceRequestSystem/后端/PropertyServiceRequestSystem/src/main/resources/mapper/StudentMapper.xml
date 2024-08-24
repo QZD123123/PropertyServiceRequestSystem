@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gdpu.mapper.StudentMapper">
+
+    <resultMap id="BaseResultMap" type="com.gdpu.pojo.Student">
+            <id property="studentId" column="student_id" jdbcType="INTEGER"/>
+            <result property="studentPhone" column="student_phone" jdbcType="VARCHAR"/>
+            <result property="studentName" column="student_name" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        student_id,student_phone,student_name
+    </sql>
+</mapper>
