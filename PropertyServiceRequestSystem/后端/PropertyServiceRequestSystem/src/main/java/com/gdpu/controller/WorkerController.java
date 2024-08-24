@@ -1,41 +1,26 @@
 package com.gdpu.controller;
 
+import com.gdpu.DTO.WorkerLoginInfo;
 import com.gdpu.pojo.Worker;
 import com.gdpu.service.WorkerService;
 import com.gdpu.service.impl.WorkerServiceImpl;
+import com.gdpu.utils.Result;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/workers")
+@RequestMapping("/worker")
 public class WorkerController {
 
-    private WorkerServiceImpl workerService;
+    @Autowired
+    private WorkerService workerService;
 
-    @GetMapping
-    public List<Worker> getAllWorkers() {
-        return workerService.getAllWorkers();
-    }
-
-    @GetMapping("/{id}")
-    public Worker getWorkerById(@PathVariable Long id) {
-        return workerService.getWorkerById(id);
-    }
-
-    @PostMapping
-    public void createWorker(@RequestBody Worker worker) {
-        workerService.saveWorker(worker);
-    }
-
-    @PutMapping("/{id}")
-    public void updateWorker(@PathVariable Integer id, @RequestBody Worker worker) {
-        worker.setWorkerId(id);
-        workerService.saveWorker(worker);
-    }
-
-    @DeleteMapping("/{id}")
-    public void deleteWorker(@PathVariable Long id) {
-        workerService.deleteWorker(id);
+    @PostMapping("login")
+    public Result workerLogin(@RequestBody WorkerLoginInfo workerLoginInfo){
+        Result result = workerService.workerLogin(workerLoginInfo);
+        return result;
     }
 }

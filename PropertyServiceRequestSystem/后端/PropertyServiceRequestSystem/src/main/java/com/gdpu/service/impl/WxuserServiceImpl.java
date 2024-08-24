@@ -66,26 +66,25 @@ public class WxuserServiceImpl extends ServiceImpl<WxuserMapper, Wxuser>
         }
 
         //判断当前用户是否为新用户
-        Wxuser wxuser = wxuserMapper.getByOpenid(openid);
+        Wxuser wxuser = wxuserMapper.findByOpenid(openid);
 
         //如果是新用户，自动完成注册
         if(wxuser == null){
             wxuser = Wxuser.builder()
                     .wxuserOpenid(openid)
                     .createTime(LocalDateTime.now())
-                    .role("student")
                     .wxuserSessionkey(sessionKey)
                     .build();
             int row = wxuserMapper.insertNewWxuser(wxuser);
             System.out.println("row = " + row);
         }
 
-        String token = jwtHelper.createToken(Long.valueOf(wxuser.getWxuserId()));
+//        String token = jwtHelper.createToken(Long.valueOf(wxuser.getWxuserId()));
 
         UserInfo userInfo = UserInfo.builder()
                 .id(Long.valueOf(wxuser.getWxuserId()))
                 .openid(wxuser.getWxuserOpenid())
-                .token(token)
+//                .token(token)
                 .build();
 
         data.put("tip","微信登录成功");

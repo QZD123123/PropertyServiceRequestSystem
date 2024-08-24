@@ -14,29 +14,14 @@ import java.util.List;
 */
 public interface WxuserMapper extends BaseMapper<Wxuser> {
 
-    @Select("SELECT * FROM wxuser")
-    List<Wxuser> getAllWxusers();
-
-    @Select("SELECT * FROM wxuser WHERE wxUser_id = #{id}")
-    Wxuser getWxuserById(Long id);
-
-    @Insert("INSERT INTO wxuser (wxUser_openid, wxUser_sessionkey, stu_id, worker_id) VALUES (#{wxUserOpenid}, #{wxUserSessionkey}, #{stuId}, #{workerId})")
-    @Options(useGeneratedKeys = true, keyProperty = "wxUserId")
-    void insertWxuser(Wxuser wxuser);
-
-    @Update("UPDATE wxuser SET wxUser_openid = #{wxUserOpenid}, wxUser_sessionkey = #{wxUserSessionkey}, stu_id = #{stuId}, worker_id = #{workerId} WHERE wxUser_id = #{wxUserId}")
-    void updateWxuser(Wxuser wxuser);
-
-    @Delete("DELETE FROM wxuser WHERE wxUser_id = #{id}")
-    void deleteWxuser(Long id);
-
-    Wxuser findByPhone(@Param("phone") String phone);
-
-    //根据openid查询用户
-    @Select("select * from wxuser where wxUser_openid=#{openid}")
-    Wxuser getByOpenid(@Param("openid") String openid);
-
     int insertNewWxuser(@Param("wxuser") Wxuser wxuser);
+
+    Wxuser findByOpenid(@Param("openid") String openid);
+
+    Wxuser findByPhone(String phone);
+
+    int UpdateWxuser(@Param("wxuser") Wxuser wxuser);
+
 }
 
 

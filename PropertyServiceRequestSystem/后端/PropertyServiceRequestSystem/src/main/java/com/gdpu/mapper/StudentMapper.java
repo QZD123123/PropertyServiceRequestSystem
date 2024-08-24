@@ -19,21 +19,7 @@ import java.util.List;
 */
 public interface StudentMapper extends BaseMapper<Student> {
 
-    @Select("SELECT * FROM student")
-    List<Student> getAllStudents();
-
-    @Select("SELECT * FROM student WHERE student_id = #{id}")
-    Student getStudentById(Long id);
-
-    @Insert("INSERT INTO student (student_phone, student_name) VALUES (#{studentPhone}, #{studentName})")
-    @Options(useGeneratedKeys = true, keyProperty = "studentId")
-    void insertStudent(Student student);
-
-    @Update("UPDATE student SET student_phone = #{studentPhone}, student_name = #{studentName} WHERE student_id = #{studentId}")
-    void updateStudent(Student student);
-
-    @Delete("DELETE FROM student WHERE student_id = #{id}")
-    void deleteStudent(Long id);
+    Student findStudent(@Param("studentName") String studentName, @Param("studentId") String studentId);
 }
 
 

@@ -6,11 +6,16 @@
 
     <resultMap id="BaseResultMap" type="com.gdpu.pojo.Student">
             <id property="studentId" column="student_id" jdbcType="INTEGER"/>
-            <result property="studentPhone" column="student_phone" jdbcType="VARCHAR"/>
+            <result property="studentNumber" column="student_number" jdbcType="VARCHAR"/>
             <result property="studentName" column="student_name" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        student_id,student_phone,student_name
+        student_id,student_number,student_name
     </sql>
+
+    <select id="findStudent" resultType="com.gdpu.pojo.Student">
+        select * from student where student_number=#{studentId} and student_name=#{studentName}
+    </select>
+
 </mapper>

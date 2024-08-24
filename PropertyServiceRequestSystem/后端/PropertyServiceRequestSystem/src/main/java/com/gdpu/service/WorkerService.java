@@ -1,7 +1,9 @@
 package com.gdpu.service;
 
+import com.gdpu.DTO.WorkerLoginInfo;
 import com.gdpu.pojo.Worker;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.gdpu.utils.Result;
 
 /**
 * @author ASUS
@@ -10,4 +12,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
 */
 public interface WorkerService extends IService<Worker> {
 
+    Result workerLogin(WorkerLoginInfo workerLoginInfo);
 }

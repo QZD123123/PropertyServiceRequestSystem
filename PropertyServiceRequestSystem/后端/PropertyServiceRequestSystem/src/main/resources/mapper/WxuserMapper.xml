@@ -27,7 +27,21 @@
         values ( #{wxuser.wxuserOpenid} ,#{wxuser.wxuserSessionkey} ,#{wxuser.createTime} )
     </insert>
 
+    <update id="UpdateWxuser">
+        update wxuser
+        set stu_id = #{wxuser.stuId},
+            role = #{wxuser.role},
+            phone = #{wxuser.phone},
+            name = #{wxuser.name},
+            deleted = #{wxuser.deleted}
+        where wxUser_openid = #{wxuser.wxuserOpenid}
+    </update>
+
     <select id="findByPhone" resultType="com.gdpu.pojo.Wxuser">
         select * from wxuser where wxuser.phone = #{phone}
+    </select>
+
+    <select id="findByOpenid" resultType="com.gdpu.pojo.Wxuser">
+        select * from wxuser where wxUser_openid=#{openid}
     </select>
 </mapper>

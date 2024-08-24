@@ -15,7 +15,7 @@ import lombok.Data;
 public class Student implements Serializable {
     private Integer studentId;
 
-    private String studentPhone;
+    private String studentNumber;
 
     private String studentName;
 
