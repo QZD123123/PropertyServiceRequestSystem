@@ -30,6 +30,7 @@
     <update id="UpdateWxuser">
         update wxuser
         set stu_id = #{wxuser.stuId},
+            worker_id = #{wxuser.workerId},
             role = #{wxuser.role},
             phone = #{wxuser.phone},
             name = #{wxuser.name},

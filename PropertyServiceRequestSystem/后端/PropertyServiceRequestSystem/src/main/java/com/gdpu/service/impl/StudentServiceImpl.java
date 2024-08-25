@@ -52,6 +52,7 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student>
         }
 
         Wxuser wxuser = wxuserMapper.findByOpenid(openid);
+        Integer wxuserId = wxuser.getWxuserId();
         if(wxuser == null){
             data.put("tip","为何还没进行微信登录就能到这一步了");
             log.info("为何还没进行微信登录就能到这一步了");
@@ -74,7 +75,7 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student>
         data.put("tip","登录成功");
 
         StudentLoginVO studentLoginVO = StudentLoginVO.builder()
-                .id(String.valueOf(wxuser.getWxuserId()))
+                .id(String.valueOf(wxuserId))
                 .openid(openid)
                 .studentId(String.valueOf(wxuser.getStuId()))
                 .role(wxuser.getRole())

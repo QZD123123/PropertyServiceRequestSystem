@@ -13,4 +13,9 @@
     <sql id="Base_Column_List">
         worker_id,worker_phone,worker_name
     </sql>
+
+    <select id="findWorker" resultType="com.gdpu.pojo.Worker">
+        select * from worker where worker_phone=#{workerPhone} and worker_name=#{workerName}
+    </select>
+
 </mapper>

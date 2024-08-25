@@ -5,6 +5,6 @@ import lombok.Data;
 @Data
 public class WorkerLoginInfo {
     private String openid;
-    private String name;
-    private String phone;
+    private String workerName;
+    private String workerPhone;
 }
