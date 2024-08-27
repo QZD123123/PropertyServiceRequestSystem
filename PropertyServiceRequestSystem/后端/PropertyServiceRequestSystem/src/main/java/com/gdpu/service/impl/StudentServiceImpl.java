@@ -1,8 +1,10 @@
 package com.gdpu.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.gdpu.DTO.AddRepairInfo;
 import com.gdpu.DTO.StudentLoginInfo;
 import com.gdpu.VO.StudentLoginVO;
+import com.gdpu.mapper.RepairMapper;
 import com.gdpu.mapper.WxuserMapper;
 import com.gdpu.pojo.Student;
 import com.gdpu.pojo.Wxuser;
@@ -29,14 +31,15 @@ import java.util.Map;
 public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student>
     implements StudentService{
 
-    @Autowired
-    private JwtHelper jwtHelper;
 
     @Autowired
     private StudentMapper studentMapper;
 
     @Autowired
     private WxuserMapper wxuserMapper;
+
+    @Autowired
+    private RepairMapper repairMapper;
 
     @Override
     public Result studentLogin(StudentLoginInfo studentLoginInfo) {
@@ -49,13 +52,16 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student>
         if(student == null){
             data.put("tip","该学生名字或学号不在库中");
             log.info("该学生名字或学号不在库中");
+            return Result.ok(data);
         }
 
         Wxuser wxuser = wxuserMapper.findByOpenid(openid);
         Integer wxuserId = wxuser.getWxuserId();
         if(wxuser == null){
+
             data.put("tip","为何还没进行微信登录就能到这一步了");
             log.info("为何还没进行微信登录就能到这一步了");
+            return Result.ok(data);
         }
         //该学生还没登记在wx表中
         if(wxuser.getName() == null || wxuser.getPhone() == null){
@@ -72,9 +78,9 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student>
                 log.info("成功为第一次登录的学生更新wx表");
             }
         }
-        data.put("tip","登录成功");
 
         StudentLoginVO studentLoginVO = StudentLoginVO.builder()
+                .tip("登陆成功")
                 .id(String.valueOf(wxuserId))
                 .openid(openid)
                 .studentId(String.valueOf(wxuser.getStuId()))
@@ -83,10 +89,11 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student>
                 .name(wxuser.getName())
                 .build();
 
-        data.put("studentLoginVO",studentLoginVO);
-
-        return Result.ok(data);
+        return Result.ok(studentLoginVO);
     }
+
+
+
 
 
 

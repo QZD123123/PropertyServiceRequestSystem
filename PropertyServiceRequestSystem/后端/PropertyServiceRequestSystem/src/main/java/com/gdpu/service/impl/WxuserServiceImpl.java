@@ -12,6 +12,7 @@ import com.gdpu.utils.HttpClientUtil;
 import com.gdpu.utils.JwtHelper;
 import com.gdpu.utils.Result;
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,7 @@ import java.util.Map;
 @Service
 @Data
 @ConfigurationProperties(prefix = "xcx.wechat")
+@Slf4j
 public class WxuserServiceImpl extends ServiceImpl<WxuserMapper, Wxuser>
     implements WxuserService{
 
@@ -45,6 +47,7 @@ public class WxuserServiceImpl extends ServiceImpl<WxuserMapper, Wxuser>
 
     @Override
     public Result wxLogin(WxLoginInfo wxLoginInfo) {
+        log.info("code: {}",wxLoginInfo.getCode());
         //调用微信接口服务，获得当前微信用户的openid
         Map<String,String> map = new HashMap<>();
         map.put("appid",appid);
@@ -56,7 +59,7 @@ public class WxuserServiceImpl extends ServiceImpl<WxuserMapper, Wxuser>
         JSONObject jsonObject = JSON.parseObject(json);
         String openid = jsonObject.getString("openid");
         String sessionKey = jsonObject.getString("session_key");
-        System.out.println("jsonObject = " + jsonObject);
+        log.info("jsonObject: {}",jsonObject);
 
         Map data = new HashMap();
         //判断openid是否为空，如果为空表示登录失败，抛出业务异常
@@ -79,12 +82,12 @@ public class WxuserServiceImpl extends ServiceImpl<WxuserMapper, Wxuser>
             System.out.println("row = " + row);
         }
 
-//        String token = jwtHelper.createToken(Long.valueOf(wxuser.getWxuserId()));
+        String token = jwtHelper.createToken(Long.valueOf(wxuser.getWxuserId()));
 
         UserInfo userInfo = UserInfo.builder()
                 .id(Long.valueOf(wxuser.getWxuserId()))
                 .openid(wxuser.getWxuserOpenid())
-//                .token(token)
+                .token(token)
                 .build();
 
         data.put("tip","微信登录成功");

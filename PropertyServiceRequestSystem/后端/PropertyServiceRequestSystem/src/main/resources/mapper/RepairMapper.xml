@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gdpu.mapper.RepairMapper">
+
+    <resultMap id="BaseResultMap" type="com.gdpu.pojo.Repair">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="workerId" column="worker_id" jdbcType="INTEGER"/>
+            <result property="studentId" column="student_id" jdbcType="INTEGER"/>
+            <result property="type" column="type" jdbcType="VARCHAR"/>
+            <result property="repairDate" column="repair_Date" jdbcType="TIMESTAMP"/>
+            <result property="address" column="address" jdbcType="VARCHAR"/>
+            <result property="description" column="description" jdbcType="VARCHAR"/>
+            <result property="applicantName" column="applicant_name" jdbcType="VARCHAR"/>
+            <result property="mobile" column="mobile" jdbcType="VARCHAR"/>
+            <result property="finishTime" column="finish_Time" jdbcType="TIMESTAMP"/>
+            <result property="repairCancelReason" column="repair_Cancel_Reason" jdbcType="VARCHAR"/>
+            <result property="repairCancelDate" column="repair_Cancel_Date" jdbcType="TIMESTAMP"/>
+            <result property="deleted" column="deleted" jdbcType="TINYINT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,worker_id,student_id,
+        type,repair_Date,address,
+        description,applicant_name,mobile,
+        finish_Time,repair_Cancel_Reason,
+        repair_Cancel_Date,deleted
+    </sql>
+
+    <insert id="addNormalRepairByOpenid">
+        INSERT INTO repair (type, address, description, applicant_name, mobile, openid)
+        VALUES (
+                   "normal",
+                   #{addRepairInfo.repairLocation},
+                   #{addRepairInfo.description},
+                   #{addRepairInfo.studentName},
+                   #{addRepairInfo.studentPhone},
+                   #{openid}
+               )
+    </insert>
+
+    <insert id="addEmergencyRepairByOpenid">
+        INSERT INTO repair (type, address, description, applicant_name, mobile, openid)
+        VALUES (
+                   "emergency",
+                   #{addRepairInfo.repairLocation},
+                   #{addRepairInfo.description},
+                   #{addRepairInfo.studentName},
+                   #{addRepairInfo.studentPhone},
+                   #{openid}
+               )
+    </insert>
+
+    <select id="showRepairListByOpenid" resultType="com.gdpu.VO.ShowRepairListVo">
+        select
+            id,type,applicant_name,mobile,address,description,
+            repair_Date,wxuser.`name` as workerName,finish_Time,
+            repair_Cancel_Reason,repair_Cancel_Date
+        from `repair`,`wxuser`
+        where `repair`.worker_id=wxuser.wxUser_openid and role='worker' and student_id = #{openid}
+    </select>
+
+
+
+
+</mapper>

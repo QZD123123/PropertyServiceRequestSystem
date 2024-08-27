@@ -7,6 +7,7 @@ import lombok.Data;
 @Builder
 public class StudentLoginVO {
 
+    private String tip;
     private String id;
     private String openid;
     private String studentId;

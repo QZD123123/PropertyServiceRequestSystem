@@ -11,7 +11,7 @@
  Target Server Version : 80033 (8.0.33)
  File Encoding         : 65001
 
- Date: 24/08/2024 18:17:28
+ Date: 25/08/2024 19:39:53
 */
 
 SET NAMES utf8mb4;
@@ -55,11 +55,12 @@ CREATE TABLE `student`  (
   `student_number` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `student_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   PRIMARY KEY (`student_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of student
 -- ----------------------------
+INSERT INTO `student` VALUES (1, '2130502141', '邱帅哥');
 
 -- ----------------------------
 -- Table structure for worker
@@ -70,11 +71,12 @@ CREATE TABLE `worker`  (
   `worker_phone` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `worker_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   PRIMARY KEY (`worker_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of worker
 -- ----------------------------
+INSERT INTO `worker` VALUES (1, '12312312312', '卡拉米');
 
 -- ----------------------------
 -- Table structure for wxuser
@@ -86,7 +88,7 @@ CREATE TABLE `wxuser`  (
   `wxUser_sessionkey` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `stu_id` int NULL DEFAULT NULL,
   `worker_id` int NULL DEFAULT NULL,
-  `role` enum('worker','student') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `role` enum('worker','student','xxxx') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT 'xxxx',
   `phone` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '学号或者手机号码',
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `deleted` tinyint(1) NOT NULL DEFAULT 0 COMMENT '逻辑删除',
@@ -96,7 +98,7 @@ CREATE TABLE `wxuser`  (
   INDEX `worker_id`(`worker_id` ASC) USING BTREE,
   CONSTRAINT `wxuser_ibfk_1` FOREIGN KEY (`stu_id`) REFERENCES `student` (`student_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `wxuser_ibfk_2` FOREIGN KEY (`worker_id`) REFERENCES `worker` (`worker_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of wxuser
@@ -104,9 +106,10 @@ CREATE TABLE `wxuser`  (
 INSERT INTO `wxuser` VALUES (1, 'openid', 'sessionKey', NULL, NULL, 'student', NULL, NULL, 0, '2024-08-22 22:50:11');
 INSERT INTO `wxuser` VALUES (2, 'openid', 'sessionKey', NULL, NULL, 'student', NULL, NULL, 0, '2024-08-22 22:50:38');
 INSERT INTO `wxuser` VALUES (3, 'openid', 'sessionKey', NULL, NULL, 'student', NULL, NULL, 0, '2024-08-22 22:53:40');
-INSERT INTO `wxuser` VALUES (4, 'openid', 'sessionKey', NULL, NULL, NULL, NULL, NULL, 0, '2024-08-22 23:06:17');
-INSERT INTO `wxuser` VALUES (5, 'openid', 'sessionKey', NULL, NULL, NULL, NULL, NULL, 0, '2024-08-22 23:07:05');
-INSERT INTO `wxuser` VALUES (6, 'openid', 'sessionKey', NULL, NULL, NULL, NULL, NULL, 0, '2024-08-23 15:37:16');
-INSERT INTO `wxuser` VALUES (7, '222', 'sessionKey', NULL, NULL, NULL, NULL, NULL, 0, '2024-08-23 15:39:48');
+INSERT INTO `wxuser` VALUES (4, 'openid', 'sessionKey', NULL, NULL, 'xxxx', NULL, NULL, 0, '2024-08-22 23:06:17');
+INSERT INTO `wxuser` VALUES (5, 'openid', 'sessionKey', NULL, NULL, 'xxxx', NULL, NULL, 0, '2024-08-22 23:07:05');
+INSERT INTO `wxuser` VALUES (6, 'openid', 'sessionKey', NULL, NULL, 'xxxx', NULL, NULL, 0, '2024-08-23 15:37:16');
+INSERT INTO `wxuser` VALUES (7, '222', 'sessionKey', 1, NULL, 'student', '2130502141', '邱帅哥', 0, '2024-08-23 15:39:48');
+INSERT INTO `wxuser` VALUES (8, '111', 'sessionKey', NULL, 1, 'worker', '12312312312', '卡拉米', 0, '2024-08-25 16:53:41');
 
 SET FOREIGN_KEY_CHECKS = 1;

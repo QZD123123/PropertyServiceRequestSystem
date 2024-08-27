@@ -1,5 +1,6 @@
 package com.gdpu.service;
 
+import com.gdpu.DTO.AddRepairInfo;
 import com.gdpu.DTO.StudentLoginInfo;
 import com.gdpu.pojo.Student;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -13,4 +14,8 @@ import com.gdpu.utils.Result;
 public interface StudentService extends IService<Student> {
 
     Result studentLogin(StudentLoginInfo studentLoginInfo);
+
+
+
+
 }
