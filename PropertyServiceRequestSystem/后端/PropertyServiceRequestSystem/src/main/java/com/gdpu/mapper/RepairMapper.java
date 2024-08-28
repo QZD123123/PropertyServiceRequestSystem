@@ -2,6 +2,7 @@ package com.gdpu.mapper;
 
 import com.gdpu.DTO.AddRepairInfo;
 import com.gdpu.VO.ShowRepairListVo;
+import com.gdpu.VO.WorkerShowRepairListVo;
 import com.gdpu.pojo.Repair;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
@@ -22,8 +23,15 @@ public interface RepairMapper extends BaseMapper<Repair> {
 
     int addEmergencyRepairByOpenid(@Param("openid") Integer openid,@Param("addRepairInfo") AddRepairInfo addRepairInfo);
 
-    List<ShowRepairListVo> showRepairListByOpenid(@Param("openid") Integer openid);
+    List<ShowRepairListVo> studentShowRepairListByOpenid(@Param("openid") Integer openid);
 
+    List<WorkerShowRepairListVo> workerShowRepairListByOpenid(@Param("openid") Integer openid);
+
+    ShowRepairListVo selectRepairById(@Param("id") Integer id);
+
+    int finishRepairById(@Param("id") Integer id);
+
+    int deleteRepairById(@Param("id") Integer id);
 }
 
 

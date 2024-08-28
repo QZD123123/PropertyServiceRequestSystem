@@ -34,11 +34,5 @@ public class Repair implements Serializable {
 
     private Date finishTime;
 
-    private String repairCancelReason;
-
-    private Date repairCancelDate;
-
-    private Integer deleted;
-
     private static final long serialVersionUID = 1L;
 }

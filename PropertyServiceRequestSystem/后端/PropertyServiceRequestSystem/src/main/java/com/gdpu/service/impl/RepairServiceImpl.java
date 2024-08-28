@@ -3,6 +3,7 @@ package com.gdpu.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.gdpu.DTO.AddRepairInfo;
 import com.gdpu.VO.ShowRepairListVo;
+import com.gdpu.VO.WorkerShowRepairListVo;
 import com.gdpu.pojo.Repair;
 import com.gdpu.service.RepairService;
 import com.gdpu.mapper.RepairMapper;
@@ -49,10 +50,10 @@ public class RepairServiceImpl extends ServiceImpl<RepairMapper, Repair>
 
 
     @Override
-    public Result showRepairListByOpenid(Integer openid) {
+    public Result studentShowRepairListByOpenid(Integer openid) {
 
         //获取属于你的报修列表
-        List<ShowRepairListVo> list = repairMapper.showRepairListByOpenid(openid);
+        List<ShowRepairListVo> list = repairMapper.studentShowRepairListByOpenid(openid);
         return Result.ok(list);
 
     }
@@ -69,6 +70,43 @@ public class RepairServiceImpl extends ServiceImpl<RepairMapper, Repair>
             data.put("tip","添加紧急订单失败");
         }
 
+        return Result.ok(data);
+    }
+
+    @Override
+    public Result workerShowRepairListByOpenid(Integer openid) {
+        //获取属于你的报修列表
+        List<WorkerShowRepairListVo> list = repairMapper.workerShowRepairListByOpenid(openid);
+        return Result.ok(list);
+    }
+
+    @Override
+    public Result selectRepairById(Integer id) {
+        ShowRepairListVo showRepairListVo = repairMapper.selectRepairById(id);
+        return Result.ok(showRepairListVo);
+    }
+
+    @Override
+    public Result finishRepairById(Integer id) {
+        int row = repairMapper.finishRepairById(id);
+        Map data = new HashMap();
+        if (row == 1){
+            data.put("tip","完成订单");
+        }else{
+            data.put("tip","完成订单出现问题");
+        }
+        return Result.ok(data);
+    }
+
+    @Override
+    public Result deleteRepairById(Integer id) {
+        int row = repairMapper.deleteRepairById(id);
+        Map data = new HashMap();
+        if (row == 1){
+            data.put("tip","删除订单成功");
+        }else{
+            data.put("tip","删除订单出现问题");
+        }
         return Result.ok(data);
     }
 

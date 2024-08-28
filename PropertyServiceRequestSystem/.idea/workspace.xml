@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d258eee3-79e5-4245-a814-70446df438bb" name="更改" comment="" />
+    <list default="true" id="d258eee3-79e5-4245-a814-70446df438bb" name="更改" comment="">
+      <change beforePath="$PROJECT_DIR$/../数据库文件/propertyservicerequestsystem.sql" beforeDir="false" afterPath="$PROJECT_DIR$/../数据库文件/propertyservicerequestsystem.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../数据库文件/repair.sql" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -105,6 +108,7 @@
       <workItem from="1724479077700" duration="2745000" />
       <workItem from="1724493889871" duration="1804000" />
       <workItem from="1724826905192" duration="25000" />
+      <workItem from="1724830543689" duration="13000" />
     </task>
     <servers />
   </component>

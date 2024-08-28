@@ -15,7 +15,16 @@ public interface RepairService extends IService<Repair> {
 
     Result addNormalRepairByOpenid(Integer openid, AddRepairInfo addRepairInfo);
 
-    Result showRepairListByOpenid(Integer openid);
+    Result studentShowRepairListByOpenid(Integer openid);
 
     Result addEmergencyRepairByOpenid(Integer openid, AddRepairInfo addRepairInfo);
+
+
+    Result workerShowRepairListByOpenid(Integer openid);
+
+    Result selectRepairById(Integer id);
+
+    Result finishRepairById(Integer id);
+
+    Result deleteRepairById(Integer id);
 }

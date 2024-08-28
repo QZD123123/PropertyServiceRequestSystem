@@ -11,7 +11,7 @@
  Target Server Version : 80033 (8.0.33)
  File Encoding         : 65001
 
- Date: 25/08/2024 19:39:53
+ Date: 28/08/2024 17:28:18
 */
 
 SET NAMES utf8mb4;
@@ -23,28 +23,24 @@ SET FOREIGN_KEY_CHECKS = 0;
 DROP TABLE IF EXISTS `repair`;
 CREATE TABLE `repair`  (
   `id` int NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `worker_id` int NULL DEFAULT NULL COMMENT '维修工人id',
-  `student_id` int NULL DEFAULT NULL COMMENT '报修人id',
-  `type` tinyint NULL DEFAULT NULL COMMENT '订单类型 0为普通 1为紧急',
-  `problem` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '报修问题 水管破裂/漏水 无故停电/漏电 玻璃内裂',
-  `repairDate` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '报修时间',
-  `address` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '报修地址',
-  `description` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '故障描述',
-  `imageUrl` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '故障图片',
-  `applicantName` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '申请人姓名',
-  `mobile` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '申请人联系电话',
-  `star` tinyint NULL DEFAULT NULL COMMENT '几颗星',
-  `evaluateDate` datetime NULL DEFAULT NULL COMMENT '评价时间',
-  `openid` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
-  `finishTime` varchar(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '维修完成时间',
-  `repairCancelReason` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '报修取消原因',
-  `repairCancelDate` datetime NULL DEFAULT NULL COMMENT '报修取消时间',
+  `worker_id` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '维修工人openid',
+  `student_id` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '报修人openid',
+  `type` enum('normal','emergency') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '订单类型 normal为普通 emergency为紧急',
+  `repair_Date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '报修时间',
+  `address` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '报修地址',
+  `description` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '故障描述',
+  `applicant_name` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '申请人姓名',
+  `mobile` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '申请人联系电话',
+  `finish_Time` datetime NULL DEFAULT NULL COMMENT '维修完成时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of repair
 -- ----------------------------
+INSERT INTO `repair` VALUES (7, '444', '222', 'emergency', '2024-08-27 21:46:49', '12栋6层666号', '测试紧急报修', '邱帅哥', '11111111111', NULL);
+INSERT INTO `repair` VALUES (8, '111', '222', 'emergency', '2024-08-27 21:48:14', '12栋6层666号', '测试紧急报修', '邱帅哥', '11111111111', '2024-08-28 17:07:09');
+INSERT INTO `repair` VALUES (9, '444', '222', 'emergency', '2024-08-27 21:48:46', '12栋6层666号', '测试紧急报修', '邱帅哥', '11111111111', NULL);
 
 -- ----------------------------
 -- Table structure for student
@@ -54,13 +50,15 @@ CREATE TABLE `student`  (
   `student_id` int NOT NULL AUTO_INCREMENT,
   `student_number` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `student_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  PRIMARY KEY (`student_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+  PRIMARY KEY (`student_id`) USING BTREE,
+  UNIQUE INDEX `idx_student_number`(`student_number` ASC) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of student
 -- ----------------------------
 INSERT INTO `student` VALUES (1, '2130502141', '邱帅哥');
+INSERT INTO `student` VALUES (2, '1231231231', '学生登录测试员');
 
 -- ----------------------------
 -- Table structure for worker
@@ -71,12 +69,13 @@ CREATE TABLE `worker`  (
   `worker_phone` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `worker_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   PRIMARY KEY (`worker_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of worker
 -- ----------------------------
 INSERT INTO `worker` VALUES (1, '12312312312', '卡拉米');
+INSERT INTO `worker` VALUES (2, '11111111111', '工人登录测试员');
 
 -- ----------------------------
 -- Table structure for wxuser
@@ -86,30 +85,26 @@ CREATE TABLE `wxuser`  (
   `wxUser_id` int NOT NULL AUTO_INCREMENT,
   `wxUser_openid` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `wxUser_sessionkey` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `stu_id` int NULL DEFAULT NULL,
-  `worker_id` int NULL DEFAULT NULL,
   `role` enum('worker','student','xxxx') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT 'xxxx',
   `phone` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '学号或者手机号码',
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `deleted` tinyint(1) NOT NULL DEFAULT 0 COMMENT '逻辑删除',
-  `create_time` datetime NOT NULL,
-  PRIMARY KEY (`wxUser_id`) USING BTREE,
-  INDEX `stu_id`(`stu_id` ASC) USING BTREE,
-  INDEX `worker_id`(`worker_id` ASC) USING BTREE,
-  CONSTRAINT `wxuser_ibfk_1` FOREIGN KEY (`stu_id`) REFERENCES `student` (`student_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `wxuser_ibfk_2` FOREIGN KEY (`worker_id`) REFERENCES `worker` (`worker_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`wxUser_id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 12 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of wxuser
 -- ----------------------------
-INSERT INTO `wxuser` VALUES (1, 'openid', 'sessionKey', NULL, NULL, 'student', NULL, NULL, 0, '2024-08-22 22:50:11');
-INSERT INTO `wxuser` VALUES (2, 'openid', 'sessionKey', NULL, NULL, 'student', NULL, NULL, 0, '2024-08-22 22:50:38');
-INSERT INTO `wxuser` VALUES (3, 'openid', 'sessionKey', NULL, NULL, 'student', NULL, NULL, 0, '2024-08-22 22:53:40');
-INSERT INTO `wxuser` VALUES (4, 'openid', 'sessionKey', NULL, NULL, 'xxxx', NULL, NULL, 0, '2024-08-22 23:06:17');
-INSERT INTO `wxuser` VALUES (5, 'openid', 'sessionKey', NULL, NULL, 'xxxx', NULL, NULL, 0, '2024-08-22 23:07:05');
-INSERT INTO `wxuser` VALUES (6, 'openid', 'sessionKey', NULL, NULL, 'xxxx', NULL, NULL, 0, '2024-08-23 15:37:16');
-INSERT INTO `wxuser` VALUES (7, '222', 'sessionKey', 1, NULL, 'student', '2130502141', '邱帅哥', 0, '2024-08-23 15:39:48');
-INSERT INTO `wxuser` VALUES (8, '111', 'sessionKey', NULL, 1, 'worker', '12312312312', '卡拉米', 0, '2024-08-25 16:53:41');
+INSERT INTO `wxuser` VALUES (1, 'openid', 'sessionKey', 'student', NULL, NULL, 0, '2024-08-22 22:50:11');
+INSERT INTO `wxuser` VALUES (2, 'openid', 'sessionKey', 'student', NULL, NULL, 0, '2024-08-22 22:50:38');
+INSERT INTO `wxuser` VALUES (3, 'openid', 'sessionKey', 'student', NULL, NULL, 0, '2024-08-22 22:53:40');
+INSERT INTO `wxuser` VALUES (4, 'openid', 'sessionKey', 'xxxx', NULL, NULL, 0, '2024-08-22 23:06:17');
+INSERT INTO `wxuser` VALUES (5, 'openid', 'sessionKey', 'xxxx', NULL, NULL, 0, '2024-08-22 23:07:05');
+INSERT INTO `wxuser` VALUES (6, 'openid', 'sessionKey', 'xxxx', NULL, NULL, 0, '2024-08-23 15:37:16');
+INSERT INTO `wxuser` VALUES (7, '222', 'sessionKey', 'student', '2130502141', '邱帅哥', 0, '2024-08-23 15:39:48');
+INSERT INTO `wxuser` VALUES (8, '111', 'sessionKey', 'worker', '12312312312', '卡拉米', 0, '2024-08-25 16:53:41');
+INSERT INTO `wxuser` VALUES (10, '333', 'sessionKey', 'student', '1231231231', '学生登录测试员', 0, '2024-08-28 14:47:28');
+INSERT INTO `wxuser` VALUES (11, '444', 'sessionKey', 'worker', '11111111111', '工人登录测试员', 0, '2024-08-28 15:36:55');
 
 SET FOREIGN_KEY_CHECKS = 1;

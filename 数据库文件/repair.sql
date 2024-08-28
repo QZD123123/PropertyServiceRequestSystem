@@ -11,7 +11,7 @@
  Target Server Version : 80033 (8.0.33)
  File Encoding         : 65001
 
- Date: 27/08/2024 22:28:00
+ Date: 28/08/2024 16:31:50
 */
 
 SET NAMES utf8mb4;
@@ -41,9 +41,9 @@ CREATE TABLE `repair`  (
 -- ----------------------------
 -- Records of repair
 -- ----------------------------
-INSERT INTO `repair` VALUES (6, NULL, '222', 'normal', '2024-08-27 20:15:44', '12栋6层666号', '描述报修问题', '邱帅哥', '11111111111', NULL, NULL, NULL, 0);
-INSERT INTO `repair` VALUES (7, NULL, '222', 'emergency', '2024-08-27 21:46:49', '12栋6层666号', '测试紧急报修', '邱帅哥', '11111111111', NULL, NULL, NULL, 0);
-INSERT INTO `repair` VALUES (8, NULL, '222', 'emergency', '2024-08-27 21:48:14', '12栋6层666号', '测试紧急报修', '邱帅哥', '11111111111', NULL, NULL, NULL, 0);
-INSERT INTO `repair` VALUES (9, NULL, '222', 'emergency', '2024-08-27 21:48:46', '12栋6层666号', '测试紧急报修', '邱帅哥', '11111111111', NULL, NULL, NULL, 0);
+INSERT INTO `repair` VALUES (6, '444', '222', 'normal', '2024-08-27 20:15:44', '12栋6层666号', '描述报修问题', '邱帅哥', '11111111111', NULL, NULL, NULL, 0);
+INSERT INTO `repair` VALUES (7, '444', '222', 'emergency', '2024-08-27 21:46:49', '12栋6层666号', '测试紧急报修', '邱帅哥', '11111111111', NULL, NULL, NULL, 0);
+INSERT INTO `repair` VALUES (8, '111', '222', 'emergency', '2024-08-27 21:48:14', '12栋6层666号', '测试紧急报修', '邱帅哥', '11111111111', NULL, NULL, NULL, 0);
+INSERT INTO `repair` VALUES (9, '444', '222', 'emergency', '2024-08-27 21:48:46', '12栋6层666号', '测试紧急报修', '邱帅哥', '11111111111', NULL, NULL, NULL, 0);
 
 SET FOREIGN_KEY_CHECKS = 1;

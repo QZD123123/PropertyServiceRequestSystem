@@ -15,21 +15,17 @@
             <result property="applicantName" column="applicant_name" jdbcType="VARCHAR"/>
             <result property="mobile" column="mobile" jdbcType="VARCHAR"/>
             <result property="finishTime" column="finish_Time" jdbcType="TIMESTAMP"/>
-            <result property="repairCancelReason" column="repair_Cancel_Reason" jdbcType="VARCHAR"/>
-            <result property="repairCancelDate" column="repair_Cancel_Date" jdbcType="TIMESTAMP"/>
-            <result property="deleted" column="deleted" jdbcType="TINYINT"/>
     </resultMap>
 
     <sql id="Base_Column_List">
         id,worker_id,student_id,
         type,repair_Date,address,
         description,applicant_name,mobile,
-        finish_Time,repair_Cancel_Reason,
-        repair_Cancel_Date,deleted
+        finish_Time
     </sql>
 
     <insert id="addNormalRepairByOpenid">
-        INSERT INTO repair (type, address, description, applicant_name, mobile, openid)
+        INSERT INTO repair (type, address, description, applicant_name, mobile, student_id)
         VALUES (
                    "normal",
                    #{addRepairInfo.repairLocation},
@@ -41,7 +37,7 @@
     </insert>
 
     <insert id="addEmergencyRepairByOpenid">
-        INSERT INTO repair (type, address, description, applicant_name, mobile, openid)
+        INSERT INTO repair (type, address, description, applicant_name, mobile, student_id)
         VALUES (
                    "emergency",
                    #{addRepairInfo.repairLocation},
@@ -52,16 +48,49 @@
                )
     </insert>
 
-    <select id="showRepairListByOpenid" resultType="com.gdpu.VO.ShowRepairListVo">
+    <update id="finishRepairById">
+        update repair
+        set
+            finish_Time = CURRENT_TIMESTAMP
+        where id = #{id}
+    </update>
+
+    <delete id="deleteRepairById">
+        delete from `repair` where id = #{id}
+    </delete>
+
+    <select id="studentShowRepairListByOpenid" resultType="com.gdpu.VO.ShowRepairListVo">
         select
             id,type,applicant_name,mobile,address,description,
-            repair_Date,wxuser.`name` as workerName,finish_Time,
-            repair_Cancel_Reason,repair_Cancel_Date
+            repair_Date,wxuser.`name` as workerName,finish_Time
         from `repair`,`wxuser`
         where `repair`.worker_id=wxuser.wxUser_openid and role='worker' and student_id = #{openid}
     </select>
 
+    <select id="workerShowRepairListByOpenid" resultType="com.gdpu.VO.WorkerShowRepairListVo">
+        select
+            id,type,applicant_name,mobile,address,description,
+            repair_Date,finish_Time
+        from `repair`
+        where worker_id=#{openid} and finish_Time is NULL
+    </select>
 
+    <select id="selectRepairById" resultType="com.gdpu.VO.ShowRepairListVo">
+        SELECT
+            id,
+            type,
+            applicant_name,
+            mobile,
+            address,
+            description,
+            repair_Date,
+            wxuser.`name` as workerName,
+            finish_Time
+        FROM
+            `repair` , `wxuser`
+        WHERE
+            `repair`.id=#{id} and `repair`.worker_id=wxUser_openid
+    </select>
 
 
 </mapper>
