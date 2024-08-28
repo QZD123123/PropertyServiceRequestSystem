@@ -65,7 +65,6 @@ public class WorkerServiceImpl extends ServiceImpl<WorkerMapper, Worker>
         if(wxuser.getName() == null || wxuser.getPhone() == null){
             wxuser = Wxuser.builder()
                     .wxuserOpenid(openid)
-                    .workerId(worker.getWorkerId())
                     .role("worker")
                     .phone(workerPhone)
                     .name(workerName)
@@ -81,7 +80,6 @@ public class WorkerServiceImpl extends ServiceImpl<WorkerMapper, Worker>
         WorkerLoginVo workerLoginVo = WorkerLoginVo.builder()
                 .id(String.valueOf(wxuserId))
                 .openid(openid)
-                .workerId(String.valueOf(wxuser.getWorkerId()))
                 .role(wxuser.getRole())
                 .phone(wxuser.getPhone())
                 .name(wxuser.getName())

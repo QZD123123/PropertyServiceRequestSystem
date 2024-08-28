@@ -67,7 +67,6 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student>
         if(wxuser.getName() == null || wxuser.getPhone() == null){
             wxuser = Wxuser.builder()
                     .wxuserOpenid(openid)
-                    .stuId(student.getStudentId())
                     .role("student")
                     .phone(studentId)
                     .name(studentName)
@@ -83,7 +82,6 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student>
                 .tip("登陆成功")
                 .id(String.valueOf(wxuserId))
                 .openid(openid)
-                .studentId(String.valueOf(wxuser.getStuId()))
                 .role(wxuser.getRole())
                 .phone(wxuser.getPhone())
                 .name(wxuser.getName())

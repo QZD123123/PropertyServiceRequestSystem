@@ -27,10 +27,6 @@ public class Wxuser implements Serializable, UserDetails {
 
     private String wxuserSessionkey;
 
-    private Integer stuId;
-
-    private Integer workerId;
-
     private String role;
 
     private String phone;

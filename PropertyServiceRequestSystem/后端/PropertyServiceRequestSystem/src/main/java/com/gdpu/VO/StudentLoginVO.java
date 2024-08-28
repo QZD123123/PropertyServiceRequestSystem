@@ -10,7 +10,6 @@ public class StudentLoginVO {
     private String tip;
     private String id;
     private String openid;
-    private String studentId;
     private String role;
     private String phone;
     private String name;

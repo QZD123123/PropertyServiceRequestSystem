@@ -17,6 +17,7 @@ public class StudentController {
     @Autowired
     private StudentService studentService;
 
+    @PreAuthorize("hasAnyAuthority('xxxx')")
     @PostMapping("login")
     public Result studentLogin(@RequestBody StudentLoginInfo studentLoginInfo){
         Result result = studentService.studentLogin(studentLoginInfo);

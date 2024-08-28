@@ -8,8 +8,6 @@
             <id property="wxuserId" column="wxUser_id" jdbcType="INTEGER"/>
             <result property="wxuserOpenid" column="wxUser_openid" jdbcType="VARCHAR"/>
             <result property="wxuserSessionkey" column="wxUser_sessionkey" jdbcType="VARCHAR"/>
-            <result property="stuId" column="stu_id" jdbcType="INTEGER"/>
-            <result property="workerId" column="worker_id" jdbcType="INTEGER"/>
             <result property="role" column="role" jdbcType="VARCHAR"/>
             <result property="phone" column="phone" jdbcType="VARCHAR"/>
             <result property="name" column="name" jdbcType="VARCHAR"/>
@@ -19,7 +17,7 @@
 
     <sql id="Base_Column_List">
         wxUser_id,wxUser_openid,wxUser_sessionkey,
-        stu_id,worker_id,role,phone,name,deleted,create_time
+        role,phone,name,deleted,create_time
     </sql>
 
     <insert id="insertNewWxuser" useGeneratedKeys="true" keyProperty="wxuserId">
@@ -29,8 +27,7 @@
 
     <update id="UpdateWxuser">
         update wxuser
-        set stu_id = #{wxuser.stuId},
-            worker_id = #{wxuser.workerId},
+        set
             role = #{wxuser.role},
             phone = #{wxuser.phone},
             name = #{wxuser.name},
