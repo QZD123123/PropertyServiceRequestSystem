@@ -21,6 +21,8 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.gdpu.utils.ResultCodeEnum.Request_failed;
+
 /**
 * @author ASUS
 * @description 针对表【wxuser】的数据库操作Service实现
@@ -65,7 +67,7 @@ public class WxuserServiceImpl extends ServiceImpl<WxuserMapper, Wxuser>
         //判断openid是否为空，如果为空表示登录失败，抛出业务异常
         if (openid == null){
             data.put("tip","微信登录失败");
-            return Result.ok(data);
+            return Result.build(data,Request_failed);
         }
 
         //判断当前用户是否为新用户

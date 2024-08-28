@@ -14,7 +14,7 @@ public class mytest {
     private JwtHelper jwtHelper;
     @Test
     public void createToken(){
-        String token = jwtHelper.createToken(Long.valueOf("10"));
+        String token = jwtHelper.createToken(Long.valueOf("16"));
         System.out.println("token = " + token);
     }
 }

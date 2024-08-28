@@ -20,6 +20,8 @@ import java.util.List;
 public interface StudentMapper extends BaseMapper<Student> {
 
     Student findStudent(@Param("studentName") String studentName, @Param("studentId") String studentId);
+
+    int updateByNameNumber(@Param("studentId") String studentId,@Param("studentName") String studentName);
 }
 
 

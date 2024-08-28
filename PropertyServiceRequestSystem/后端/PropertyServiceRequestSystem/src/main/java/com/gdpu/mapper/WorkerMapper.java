@@ -16,6 +16,8 @@ public interface WorkerMapper extends BaseMapper<Worker> {
 
 
     Worker findWorker(@Param("workerName") String workerName,@Param("workerPhone") String workerPhone);
+
+    int updateByNameNumber(@Param("workerPhone") String workerPhone, @Param("workerName") String workerName);
 }
 
 

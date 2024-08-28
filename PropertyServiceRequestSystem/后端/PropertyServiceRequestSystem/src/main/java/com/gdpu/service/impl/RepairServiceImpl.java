@@ -19,6 +19,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.gdpu.utils.ResultCodeEnum.Server_error;
+
 /**
 * @author ASUS
 * @description 针对表【repair】的数据库操作Service实现
@@ -43,6 +45,7 @@ public class RepairServiceImpl extends ServiceImpl<RepairMapper, Repair>
             data.put("tip","添加普通订单成功");
         }else {
             data.put("tip","添加普通订单失败");
+            return Result.build(data,Server_error);
         }
 
         return Result.ok(data);
@@ -66,6 +69,7 @@ public class RepairServiceImpl extends ServiceImpl<RepairMapper, Repair>
 
         if (row >= 1){
             data.put("tip","添加紧急订单成功");
+            return Result.build(data,Server_error);
         }else {
             data.put("tip","添加紧急订单失败");
         }
@@ -94,6 +98,7 @@ public class RepairServiceImpl extends ServiceImpl<RepairMapper, Repair>
             data.put("tip","完成订单");
         }else{
             data.put("tip","完成订单出现问题");
+            return Result.build(data,Server_error);
         }
         return Result.ok(data);
     }
@@ -106,6 +111,7 @@ public class RepairServiceImpl extends ServiceImpl<RepairMapper, Repair>
             data.put("tip","删除订单成功");
         }else{
             data.put("tip","删除订单出现问题");
+            return Result.build(data,Server_error);
         }
         return Result.ok(data);
     }

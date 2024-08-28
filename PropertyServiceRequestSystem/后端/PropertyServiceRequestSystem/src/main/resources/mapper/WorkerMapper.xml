@@ -8,11 +8,19 @@
             <id property="workerId" column="worker_id" jdbcType="INTEGER"/>
             <result property="workerPhone" column="worker_phone" jdbcType="VARCHAR"/>
             <result property="workerName" column="worker_name" jdbcType="VARCHAR"/>
+            <result property="isUsed" column="is_used" jdbcType="TINYINT"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        worker_id,worker_phone,worker_name
+        worker_id,worker_phone,worker_name,is_used
     </sql>
+
+    <update id="updateByNameNumber">
+        update worker
+        set
+            is_used = 1
+        where worker_phone=#{workerPhone} and worker_name=#{workerName}
+    </update>
 
     <select id="findWorker" resultType="com.gdpu.pojo.Worker">
         select * from worker where worker_phone=#{workerPhone} and worker_name=#{workerName}

@@ -19,5 +19,7 @@ public class Worker implements Serializable {
 
     private String workerName;
 
+    private Integer isUsed;
+
     private static final long serialVersionUID = 1L;
 }
