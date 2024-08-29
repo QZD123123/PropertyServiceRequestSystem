@@ -11,13 +11,12 @@
             <result property="role" column="role" jdbcType="VARCHAR"/>
             <result property="phone" column="phone" jdbcType="VARCHAR"/>
             <result property="name" column="name" jdbcType="VARCHAR"/>
-            <result property="deleted" column="deleted" jdbcType="TINYINT"/>
             <result property="createTime" column="create_time" jdbcType="DATE"/>
     </resultMap>
 
     <sql id="Base_Column_List">
         wxUser_id,wxUser_openid,wxUser_sessionkey,
-        role,phone,name,deleted,create_time
+        role,phone,name,create_time
     </sql>
 
     <insert id="insertNewWxuser" useGeneratedKeys="true" keyProperty="wxuserId">
@@ -30,10 +29,13 @@
         set
             role = #{wxuser.role},
             phone = #{wxuser.phone},
-            name = #{wxuser.name},
-            deleted = #{wxuser.deleted}
+            name = #{wxuser.name}
         where wxUser_openid = #{wxuser.wxuserOpenid}
     </update>
+
+    <delete id="deleteByOpenid">
+        delete from wxuser where wxUser_openid=#{openid}
+    </delete>
 
     <select id="findByPhone" resultType="com.gdpu.pojo.Wxuser">
         select * from wxuser where wxuser.phone = #{phone}

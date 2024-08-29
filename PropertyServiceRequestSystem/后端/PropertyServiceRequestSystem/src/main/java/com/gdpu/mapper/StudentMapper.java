@@ -22,6 +22,8 @@ public interface StudentMapper extends BaseMapper<Student> {
     Student findStudent(@Param("studentName") String studentName, @Param("studentId") String studentId);
 
     int updateByNameNumber(@Param("studentId") String studentId,@Param("studentName") String studentName);
+
+    int noUsed(@Param("phone") String phone,@Param("name") String name);
 }
 
 

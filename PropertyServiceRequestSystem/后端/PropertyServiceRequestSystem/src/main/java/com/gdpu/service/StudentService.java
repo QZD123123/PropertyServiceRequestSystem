@@ -16,6 +16,5 @@ public interface StudentService extends IService<Student> {
     Result studentLogin(StudentLoginInfo studentLoginInfo);
 
 
-
-
+    Result deleteWxuserByOpenid(Integer openid);
 }

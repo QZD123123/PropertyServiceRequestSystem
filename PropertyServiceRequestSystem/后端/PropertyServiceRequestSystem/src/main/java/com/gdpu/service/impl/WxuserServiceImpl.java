@@ -87,8 +87,8 @@ public class WxuserServiceImpl extends ServiceImpl<WxuserMapper, Wxuser>
         String token = jwtHelper.createToken(Long.valueOf(wxuser.getWxuserId()));
 
         UserInfo userInfo = UserInfo.builder()
-                .id(Long.valueOf(wxuser.getWxuserId()))
                 .openid(wxuser.getWxuserOpenid())
+                .role(wxuser.getRole())
                 .token(token)
                 .build();
 

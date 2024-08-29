@@ -19,7 +19,7 @@ public class Student implements Serializable {
 
     private String studentName;
 
-    private Integer isUsed;
+    private String isUsed;
 
     private static final long serialVersionUID = 1L;
 }

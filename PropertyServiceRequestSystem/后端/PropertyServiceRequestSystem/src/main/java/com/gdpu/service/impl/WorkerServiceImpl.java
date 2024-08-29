@@ -58,7 +58,7 @@ public class WorkerServiceImpl extends ServiceImpl<WorkerMapper, Worker>
             return Result.build(data,404,"请求失败");
         }
 
-        if(worker.getIsUsed() == 1){
+        if("1".equals(worker.getIsUsed())){
             data.put("tip","账号被占用");
             return Result.build(data,Request_failed);
         }
@@ -73,13 +73,12 @@ public class WorkerServiceImpl extends ServiceImpl<WorkerMapper, Worker>
             return Result.build(data,Server_error);
         }
         //该维修工人还没登记在wx表中
-        if((wxuser.getName() == null || wxuser.getPhone() == null) && worker.getIsUsed() == 0){
+        if((wxuser.getName() == null || wxuser.getPhone() == null) && "0".equals(worker.getIsUsed())){
             wxuser = Wxuser.builder()
                     .wxuserOpenid(openid)
                     .role("worker")
                     .phone(workerPhone)
                     .name(workerName)
-                    .deleted(0)
                     .build();
             int row = wxuserMapper.UpdateWxuser(wxuser);
             int isUsed = workerMapper.updateByNameNumber(workerPhone,workerName);

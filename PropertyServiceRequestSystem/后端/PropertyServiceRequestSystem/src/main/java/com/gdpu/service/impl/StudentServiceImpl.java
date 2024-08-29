@@ -16,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
@@ -58,7 +59,7 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student>
             return Result.build(data,404,"请求失败");
         }
 
-        if(student.getIsUsed() == 1){
+        if("1".equals(student.getIsUsed())){
             data.put("tip","账号被占用");
             return Result.build(data,Request_failed);
         }
@@ -72,13 +73,12 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student>
             return Result.build(data,Server_error);
         }
         //该学生还没登记在wx表中
-        if((wxuser.getName() == null || wxuser.getPhone() == null) && student.getIsUsed() == 0){
+        if((wxuser.getName() == null || wxuser.getPhone() == null) && "0".equals(student.getIsUsed())){
             wxuser = Wxuser.builder()
                     .wxuserOpenid(openid)
                     .role("student")
                     .phone(studentId)
                     .name(studentName)
-                    .deleted(0)
                     .build();
             int row = wxuserMapper.UpdateWxuser(wxuser);
             int isUsed = studentMapper.updateByNameNumber(studentId,studentName);
@@ -99,11 +99,26 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student>
         return Result.ok(studentLoginVO);
     }
 
+    @Override
+    @Transactional
+    public Result deleteWxuserByOpenid(Integer openid) {
 
+        Wxuser wxuser = wxuserMapper.findByOpenid(String.valueOf(openid));
 
+        int noUsed = studentMapper.noUsed(wxuser.getPhone(), wxuser.getName());
 
+        int row = wxuserMapper.deleteByOpenid(openid);
 
+        Map data = new HashMap();
+        if (noUsed == 1 && row == 1){
+            data.put("tip","注销学生账号成功");
+            return Result.ok(data);
+        }else {
+            data.put("tip","注销学生账号失败");
+            return Result.build(data,Server_error);
+        }
 
+    }
 }
 
 

@@ -8,7 +8,7 @@
             <id property="workerId" column="worker_id" jdbcType="INTEGER"/>
             <result property="workerPhone" column="worker_phone" jdbcType="VARCHAR"/>
             <result property="workerName" column="worker_name" jdbcType="VARCHAR"/>
-            <result property="isUsed" column="is_used" jdbcType="TINYINT"/>
+            <result property="isUsed" column="is_used" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -18,7 +18,7 @@
     <update id="updateByNameNumber">
         update worker
         set
-            is_used = 1
+            is_used = '1'
         where worker_phone=#{workerPhone} and worker_name=#{workerName}
     </update>
 

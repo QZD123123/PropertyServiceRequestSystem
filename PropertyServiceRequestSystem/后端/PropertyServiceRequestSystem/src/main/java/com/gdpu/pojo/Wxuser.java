@@ -33,8 +33,6 @@ public class Wxuser implements Serializable, UserDetails {
 
     private String name;
 
-    private Integer deleted;
-
     private LocalDateTime createTime;
 
     private static final long serialVersionUID = 1L;

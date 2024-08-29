@@ -8,7 +8,7 @@
             <id property="studentId" column="student_id" jdbcType="INTEGER"/>
             <result property="studentNumber" column="student_number" jdbcType="VARCHAR"/>
             <result property="studentName" column="student_name" jdbcType="VARCHAR"/>
-            <result property="isUsed" column="is_used" jdbcType="TINYINT"/>
+            <result property="isUsed" column="is_used" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -18,8 +18,15 @@
     <update id="updateByNameNumber">
         update student
         set
-            is_used = 1
+            is_used = '1'
         where student_number=#{studentId} and student_name=#{studentName}
+    </update>
+
+    <update id="noUsed">
+        update student
+        set
+            is_used = '0'
+        where student_number=#{phone} and student_name=#{name}
     </update>
 
     <select id="findStudent" resultType="com.gdpu.pojo.Student">
