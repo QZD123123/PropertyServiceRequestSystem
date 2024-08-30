@@ -3,6 +3,7 @@ package com.gdpu.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.gdpu.DTO.AddRepairInfo;
 import com.gdpu.VO.NormalVo;
+import com.gdpu.VO.OrderCountVo;
 import com.gdpu.VO.ShowRepairListVo;
 import com.gdpu.VO.WorkerShowRepairListVo;
 import com.gdpu.mapper.WorkerMapper;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -117,6 +119,30 @@ public class RepairServiceImpl extends ServiceImpl<RepairMapper, Repair>
     }
 
     @Override
+    public Result workerOrderCount(Integer openid) {
+
+        int noFinish = repairMapper.workerNoFinish(openid);
+        int Finish = repairMapper.workerTotalFinish(openid);
+        OrderCountVo orderCountVo = OrderCountVo.builder()
+                .noFinish(noFinish)
+                .Finish(Finish)
+                .build();
+        return Result.ok(orderCountVo);
+    }
+
+    @Override
+    public Result studentOrderCount(Integer openid) {
+
+        int noFinish = repairMapper.studentNoFinish(openid);
+        int Finish = repairMapper.studentTotalFinish(openid);
+        OrderCountVo orderCountVo = OrderCountVo.builder()
+                .noFinish(noFinish)
+                .Finish(Finish)
+                .build();
+        return Result.ok(orderCountVo);
+    }
+
+    @Override
     public Result selectRepairById(Integer id) {
         ShowRepairListVo showRepairListVo = repairMapper.selectRepairById(id);
         return Result.ok(showRepairListVo);
@@ -148,7 +174,6 @@ public class RepairServiceImpl extends ServiceImpl<RepairMapper, Repair>
         }
 
     }
-
 
 
 

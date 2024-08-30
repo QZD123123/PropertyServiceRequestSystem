@@ -102,7 +102,45 @@
             `repair`.id=#{id} and `repair`.worker_id=wxUser_openid
     </select>
 
+    <select id="workerNoFinish" resultType="java.lang.Integer">
+        SELECT
+            count(*)
+        FROM
+            `repair`
+        WHERE
+            worker_id = #{openid}
+          AND finish_Time IS NULL
+    </select>
 
+    <select id="workerTotalFinish" resultType="java.lang.Integer">
+        SELECT
+            count(*)
+        FROM
+            `repair`
+        WHERE
+            worker_id = #{openid}
+          AND finish_Time IS NOT NULL
+    </select>
+
+    <select id="studentNoFinish" resultType="java.lang.Integer">
+        SELECT
+            count(*)
+        FROM
+            `repair`
+        WHERE
+            student_id = #{openid}
+          AND finish_Time IS NULL
+    </select>
+
+    <select id="studentTotalFinish" resultType="java.lang.Integer">
+        SELECT
+            count(*)
+        FROM
+            `repair`
+        WHERE
+            student_id = #{openid}
+          AND finish_Time IS NOT NULL
+    </select>
 
 
 </mapper>

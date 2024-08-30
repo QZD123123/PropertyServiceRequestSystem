@@ -11,7 +11,7 @@
  Target Server Version : 80033 (8.0.33)
  File Encoding         : 65001
 
- Date: 30/08/2024 13:03:49
+ Date: 30/08/2024 19:54:10
 */
 
 SET NAMES utf8mb4;
@@ -33,7 +33,7 @@ CREATE TABLE `repair`  (
   `mobile` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '申请人联系电话',
   `finish_Time` datetime NULL DEFAULT NULL COMMENT '维修完成时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 46 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 49 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of repair
@@ -52,7 +52,7 @@ INSERT INTO `repair` VALUES (17, '111', '#{openid}', 'normal', '2024-08-30 11:31
 INSERT INTO `repair` VALUES (18, '111', '#{openid}', 'normal', '2024-08-30 11:32:07', '#{addRepairInfo.repairLocation}', '#{addRepairInfo.description}', '#{addRepairInfo.studentName}', '333333', NULL);
 INSERT INTO `repair` VALUES (20, '111', '333', 'normal', '2024-08-30 11:53:36', '这是报修地址', '描述报修问题', '学生登录测试员', '1231231231', NULL);
 INSERT INTO `repair` VALUES (21, '444', '333', 'normal', '2024-08-30 11:53:45', '这是报修地址', '描述报修问题', '学生登录测试员', '1231231231', NULL);
-INSERT INTO `repair` VALUES (22, '111', '333', 'normal', '2024-08-30 11:53:52', '这是报修地址', '描述报修问题', '学生登录测试员', '1231231231', NULL);
+INSERT INTO `repair` VALUES (22, '111', '333', 'normal', '2024-08-30 11:53:52', '这是报修地址', '描述报修问题', '学生登录测试员', '1231231231', '2024-08-30 19:50:00');
 INSERT INTO `repair` VALUES (23, '111', '333', 'normal', '2024-08-30 11:56:39', '这是报修地址', '描述报修问题', '学生登录测试员', '1231231231', NULL);
 INSERT INTO `repair` VALUES (24, '444', '333', 'normal', '2024-08-30 11:57:20', '这是报修地址', '描述报修问题', '学生登录测试员', '1231231231', NULL);
 INSERT INTO `repair` VALUES (25, '292', '333', 'normal', '2024-08-30 11:57:37', '这是报修地址', '描述报修问题', '学生登录测试员', '1231231231', NULL);
@@ -74,7 +74,10 @@ INSERT INTO `repair` VALUES (41, '292', '222', 'emergency', '2024-08-30 12:56:35
 INSERT INTO `repair` VALUES (42, '111', '222', 'emergency', '2024-08-30 12:56:50', '这是报修地址', '紧急订单', '学生登录测试员', '1231231231', NULL);
 INSERT INTO `repair` VALUES (43, '444', '222', 'emergency', '2024-08-30 12:56:51', '这是报修地址', '紧急订单', '学生登录测试员', '1231231231', NULL);
 INSERT INTO `repair` VALUES (44, '292', '222', 'emergency', '2024-08-30 12:56:59', '这是报修地址', '紧急订单', '学生登录测试员', '1231231231', NULL);
-INSERT INTO `repair` VALUES (45, '111', '222', 'emergency', '2024-08-30 13:01:04', '这是报修地址', '紧急订单', '学生登录测试员', '1231231231', NULL);
+INSERT INTO `repair` VALUES (45, '111', '222', 'emergency', '2024-08-30 13:01:04', '这是报修地址', '紧急订单', '学生登录测试员', '1231231231', '2024-08-30 19:49:38');
+INSERT INTO `repair` VALUES (46, '444', '333', 'normal', '2024-08-30 19:51:42', '这是报修地址', '描述报修问题', '学生登录测试员', '1231231231', NULL);
+INSERT INTO `repair` VALUES (47, '292', '333', 'normal', '2024-08-30 19:51:54', '这是报修地址', '描述报修问题', '学生登录测试员', '1231231231', NULL);
+INSERT INTO `repair` VALUES (48, '111', '333', 'normal', '2024-08-30 19:51:59', '这是报修地址', '描述报修问题', '学生登录测试员', '1231231231', NULL);
 
 -- ----------------------------
 -- Table structure for student
@@ -122,9 +125,9 @@ CREATE TABLE `worker`  (
 -- ----------------------------
 -- Records of worker
 -- ----------------------------
-INSERT INTO `worker` VALUES (1, '12312312312', '卡拉米', '1', '2024-08-30 12:53:59', '2024-08-30 13:01:04');
-INSERT INTO `worker` VALUES (2, '11111111111', '工人登录测试员', '1', '2024-08-30 12:51:23', '2024-08-30 12:56:51');
-INSERT INTO `worker` VALUES (3, '123', 'aaa', '1', '2024-08-30 12:53:50', '2024-08-30 12:56:59');
+INSERT INTO `worker` VALUES (1, '12312312312', '卡拉米', '1', '2024-08-30 19:51:59', '2024-08-30 13:01:04');
+INSERT INTO `worker` VALUES (2, '11111111111', '工人登录测试员', '1', '2024-08-30 19:51:42', '2024-08-30 12:56:51');
+INSERT INTO `worker` VALUES (3, '123', 'aaa', '1', '2024-08-30 19:51:54', '2024-08-30 12:56:59');
 
 -- ----------------------------
 -- Table structure for wxuser

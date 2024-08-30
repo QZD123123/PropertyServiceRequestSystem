@@ -29,4 +29,9 @@ public interface RepairService extends IService<Repair> {
     Result deleteRepairById(Integer id);
 
     Result workerShowEmergencyRepairListByOpenid(Integer openid);
+
+
+    Result workerOrderCount(Integer openid);
+
+    Result studentOrderCount(Integer openid);
 }

@@ -73,4 +73,17 @@ public class RepairController {
         return result;
     }
 
+    @PreAuthorize("hasAnyAuthority('worker')")
+    @GetMapping("workerOrderCount/{openid}")
+    public Result workerOrderCount(@PathVariable Integer openid){
+        Result result = repairService.workerOrderCount(openid);
+        return result;
+    }
+
+    @PreAuthorize("hasAnyAuthority('student')")
+    @GetMapping("studentOrderCount/{openid}")
+    public Result studentOrderCount(@PathVariable Integer openid){
+        Result result = repairService.studentOrderCount(openid);
+        return result;
+    }
 }
