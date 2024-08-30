@@ -14,6 +14,7 @@ import com.gdpu.utils.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
@@ -99,10 +100,29 @@ public class WorkerServiceImpl extends ServiceImpl<WorkerMapper, Worker>
         data.put("workerLoginVO",workerLoginVo);
 
         return Result.ok(data);
-
-
-
     }
+
+    @Override
+    @Transactional
+    public Result deleteWxuserByOpenid(Integer openid) {
+        Wxuser wxuser = wxuserMapper.findByOpenid(String.valueOf(openid));
+
+        int noUsed = workerMapper.noUsed(wxuser.getPhone(), wxuser.getName());
+
+        int row = wxuserMapper.deleteByOpenid(openid);
+
+        Map data = new HashMap();
+        if (noUsed == 1 && row == 1){
+            data.put("tip","注销维修工人账号成功");
+            return Result.ok(data);
+        }else {
+            data.put("tip","注销维修工人账号失败");
+            return Result.build(data,Server_error);
+        }
+    }
+
+
+
 }
 
 

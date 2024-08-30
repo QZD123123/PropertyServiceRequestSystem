@@ -38,11 +38,19 @@ public class RepairController {
     }
 
     @PreAuthorize("hasAnyAuthority('worker')")
-    @GetMapping("worker/{openid}")
-    public Result workerShowRepairListByOpenid(@PathVariable Integer openid){
-        Result result = repairService.workerShowRepairListByOpenid(openid);
+    @GetMapping("worker/normal/{openid}")
+    public Result workerShowNormalRepairListByOpenid(@PathVariable Integer openid){
+        Result result = repairService.workerShowNormalRepairListByOpenid(openid);
         return result;
     }
+
+    @PreAuthorize("hasAnyAuthority('worker')")
+    @GetMapping("worker/emergency/{openid}")
+    public Result workerShowEmergencyRepairListByOpenid(@PathVariable Integer openid){
+        Result result = repairService.workerShowEmergencyRepairListByOpenid(openid);
+        return result;
+    }
+
 
     @PreAuthorize("hasAnyAuthority('worker','student')")
     @GetMapping("{id}")

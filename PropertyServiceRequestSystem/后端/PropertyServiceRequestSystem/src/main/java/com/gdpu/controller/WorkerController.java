@@ -25,4 +25,12 @@ public class WorkerController {
         Result result = workerService.workerLogin(workerLoginInfo);
         return result;
     }
+
+    @PreAuthorize("hasAnyAuthority('worker')")
+    @DeleteMapping("{openid}")
+    public Result deleteWxuserByOpenid(@PathVariable Integer openid){
+        Result result = workerService.deleteWxuserByOpenid(openid);
+        return result;
+    }
+
 }

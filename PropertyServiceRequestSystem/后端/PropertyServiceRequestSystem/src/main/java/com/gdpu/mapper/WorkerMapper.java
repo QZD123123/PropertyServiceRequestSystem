@@ -1,5 +1,6 @@
 package com.gdpu.mapper;
 
+import com.gdpu.VO.NormalVo;
 import com.gdpu.pojo.Worker;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.*;
@@ -18,6 +19,16 @@ public interface WorkerMapper extends BaseMapper<Worker> {
     Worker findWorker(@Param("workerName") String workerName,@Param("workerPhone") String workerPhone);
 
     int updateByNameNumber(@Param("workerPhone") String workerPhone, @Param("workerName") String workerName);
+
+    int noUsed(@Param("phone") String phone, @Param("name") String name);
+
+    NormalVo selectNormalLastWorkerId();
+
+    int updateNormalLastTime(@Param("workerId") int workerId);
+
+    NormalVo selectEmergencyLastWorkerId();
+
+    int updateEmergencyLastTime(@Param("workerId") int workerId);
 }
 
 

@@ -6,7 +6,6 @@ import com.gdpu.VO.WorkerShowRepairListVo;
 import com.gdpu.pojo.Repair;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.security.core.parameters.P;
 
 import java.util.List;
 
@@ -19,19 +18,23 @@ import java.util.List;
 public interface RepairMapper extends BaseMapper<Repair> {
 
 
-    int addNormalRepairByOpenid(@Param("openid") Integer openid,@Param("addRepairInfo") AddRepairInfo addRepairInfo);
+    int addNormalRepairByOpenid(@Param("openid") Integer openid,@Param("addRepairInfo") AddRepairInfo addRepairInfo,@Param("workerOpenId") Integer workerOpenId);
 
-    int addEmergencyRepairByOpenid(@Param("openid") Integer openid,@Param("addRepairInfo") AddRepairInfo addRepairInfo);
+    int addEmergencyRepairByOpenid(@Param("openid") Integer openid,@Param("addRepairInfo") AddRepairInfo addRepairInfo,@Param("workerOpenId") Integer workerOpenId);
 
     List<ShowRepairListVo> studentShowRepairListByOpenid(@Param("openid") Integer openid);
 
-    List<WorkerShowRepairListVo> workerShowRepairListByOpenid(@Param("openid") Integer openid);
+    List<WorkerShowRepairListVo> workerShowNormalRepairListByOpenid(@Param("openid") Integer openid);
+
+    List<WorkerShowRepairListVo> workerShowEmergencyRepairListByOpenid(@Param("openid") Integer openid);
 
     ShowRepairListVo selectRepairById(@Param("id") Integer id);
 
     int finishRepairById(@Param("id") Integer id);
 
     int deleteRepairById(@Param("id") Integer id);
+
+
 }
 
 

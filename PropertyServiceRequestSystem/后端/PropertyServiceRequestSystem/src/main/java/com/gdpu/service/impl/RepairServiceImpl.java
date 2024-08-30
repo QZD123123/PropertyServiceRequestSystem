@@ -2,18 +2,17 @@ package com.gdpu.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.gdpu.DTO.AddRepairInfo;
+import com.gdpu.VO.NormalVo;
 import com.gdpu.VO.ShowRepairListVo;
 import com.gdpu.VO.WorkerShowRepairListVo;
+import com.gdpu.mapper.WorkerMapper;
 import com.gdpu.pojo.Repair;
 import com.gdpu.service.RepairService;
 import com.gdpu.mapper.RepairMapper;
 import com.gdpu.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
@@ -33,24 +32,65 @@ public class RepairServiceImpl extends ServiceImpl<RepairMapper, Repair>
     @Autowired
     private RepairMapper repairMapper;
 
+    @Autowired
+    private WorkerMapper workerMapper;
+
 
     @Override
+    @Transactional
     public Result addNormalRepairByOpenid(Integer openid, AddRepairInfo addRepairInfo) {
 
-        int row = repairMapper.addNormalRepairByOpenid(openid,addRepairInfo);
+        NormalVo normalLastWorkerId = workerMapper.selectNormalLastWorkerId();
+        System.out.println("normalLastWorkerId = " + normalLastWorkerId);
+        int workerOpenId = normalLastWorkerId.getWxUserOpenid();
+
+        int workerId = normalLastWorkerId.getWorkerId();
+
+        int row = repairMapper.addNormalRepairByOpenid(openid,addRepairInfo,workerOpenId);
+
+        int updateNormalLastTime = workerMapper.updateNormalLastTime(workerId);
+
+        System.out.println("row = " + row);
+        System.out.println("updateNormalLastTime = " + updateNormalLastTime);
 
         Map data = new HashMap();
 
-        if (row >= 1){
+        if (row == 1 && updateNormalLastTime == 1){
             data.put("tip","添加普通订单成功");
+            return Result.ok(data);
         }else {
             data.put("tip","添加普通订单失败");
             return Result.build(data,Server_error);
         }
-
-        return Result.ok(data);
     }
 
+
+    @Override
+    @Transactional
+    public Result addEmergencyRepairByOpenid(Integer openid, AddRepairInfo addRepairInfo) {
+
+        NormalVo emergencyLastWorkerId = workerMapper.selectEmergencyLastWorkerId();
+
+        int workerOpenId = emergencyLastWorkerId.getWxUserOpenid();
+
+        int workerId = emergencyLastWorkerId.getWorkerId();
+
+        int row = repairMapper.addEmergencyRepairByOpenid(openid,addRepairInfo,workerOpenId);
+
+        int updateEmergencyLastTime = workerMapper.updateEmergencyLastTime(workerId);
+
+        Map data = new HashMap();
+
+        if (row == 1 && updateEmergencyLastTime == 1){
+            data.put("tip","添加紧急订单成功");
+            return Result.ok(data);
+        }else {
+            data.put("tip","添加紧急订单失败");
+            return Result.build(data,Server_error);
+        }
+
+
+    }
 
     @Override
     public Result studentShowRepairListByOpenid(Integer openid) {
@@ -61,26 +101,18 @@ public class RepairServiceImpl extends ServiceImpl<RepairMapper, Repair>
 
     }
 
+
     @Override
-    public Result addEmergencyRepairByOpenid(Integer openid, AddRepairInfo addRepairInfo) {
-        int row = repairMapper.addEmergencyRepairByOpenid(openid,addRepairInfo);
-
-        Map data = new HashMap();
-
-        if (row >= 1){
-            data.put("tip","添加紧急订单成功");
-            return Result.build(data,Server_error);
-        }else {
-            data.put("tip","添加紧急订单失败");
-        }
-
-        return Result.ok(data);
+    public Result workerShowNormalRepairListByOpenid(Integer openid) {
+        //获取属于你的普通报修列表
+        List<WorkerShowRepairListVo> list = repairMapper.workerShowNormalRepairListByOpenid(openid);
+        return Result.ok(list);
     }
 
     @Override
-    public Result workerShowRepairListByOpenid(Integer openid) {
-        //获取属于你的报修列表
-        List<WorkerShowRepairListVo> list = repairMapper.workerShowRepairListByOpenid(openid);
+    public Result workerShowEmergencyRepairListByOpenid(Integer openid) {
+        //获取属于你的紧急报修列表
+        List<WorkerShowRepairListVo> list = repairMapper.workerShowEmergencyRepairListByOpenid(openid);
         return Result.ok(list);
     }
 
@@ -96,11 +128,11 @@ public class RepairServiceImpl extends ServiceImpl<RepairMapper, Repair>
         Map data = new HashMap();
         if (row == 1){
             data.put("tip","完成订单");
+            return Result.ok(data);
         }else{
             data.put("tip","完成订单出现问题");
             return Result.build(data,Server_error);
         }
-        return Result.ok(data);
     }
 
     @Override
@@ -109,12 +141,15 @@ public class RepairServiceImpl extends ServiceImpl<RepairMapper, Repair>
         Map data = new HashMap();
         if (row == 1){
             data.put("tip","删除订单成功");
+            return Result.ok(data);
         }else{
             data.put("tip","删除订单出现问题");
             return Result.build(data,Server_error);
         }
-        return Result.ok(data);
+
     }
+
+
 
 
 }

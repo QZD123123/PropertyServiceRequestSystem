@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
+import java.util.Date;
+
 import lombok.Data;
 
 /**
@@ -20,6 +22,10 @@ public class Worker implements Serializable {
     private String workerName;
 
     private String isUsed;
+
+    private Date normalLastAssigned;
+
+    private Date emergencyLastAssigned;
 
     private static final long serialVersionUID = 1L;
 }

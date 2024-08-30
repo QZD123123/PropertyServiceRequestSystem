@@ -25,26 +25,28 @@
     </sql>
 
     <insert id="addNormalRepairByOpenid">
-        INSERT INTO repair (type, address, description, applicant_name, mobile, student_id)
+        INSERT INTO repair (type, address, description, applicant_name, mobile, student_id, worker_id)
         VALUES (
                    "normal",
                    #{addRepairInfo.repairLocation},
                    #{addRepairInfo.description},
                    #{addRepairInfo.studentName},
                    #{addRepairInfo.studentPhone},
-                   #{openid}
+                   #{openid},
+                   #{workerOpenId}
                )
     </insert>
 
     <insert id="addEmergencyRepairByOpenid">
-        INSERT INTO repair (type, address, description, applicant_name, mobile, student_id)
+        INSERT INTO repair (type, address, description, applicant_name, mobile, student_id, worker_id)
         VALUES (
                    "emergency",
                    #{addRepairInfo.repairLocation},
                    #{addRepairInfo.description},
                    #{addRepairInfo.studentName},
                    #{addRepairInfo.studentPhone},
-                   #{openid}
+                   #{openid},
+                   #{workerOpenId}
                )
     </insert>
 
@@ -67,12 +69,20 @@
         where `repair`.worker_id=wxuser.wxUser_openid and role='worker' and student_id = #{openid}
     </select>
 
-    <select id="workerShowRepairListByOpenid" resultType="com.gdpu.VO.WorkerShowRepairListVo">
+    <select id="workerShowNormalRepairListByOpenid" resultType="com.gdpu.VO.WorkerShowRepairListVo">
         select
             id,type,applicant_name,mobile,address,description,
             repair_Date,finish_Time
         from `repair`
-        where worker_id=#{openid} and finish_Time is NULL
+        where worker_id=#{openid} and type='normal' and finish_Time is NULL
+    </select>
+
+    <select id="workerShowEmergencyRepairListByOpenid" resultType="com.gdpu.VO.WorkerShowRepairListVo">
+        select
+            id,type,applicant_name,mobile,address,description,
+            repair_Date,finish_Time
+        from `repair`
+        where worker_id=#{openid} and type='emergency' and finish_Time is NULL
     </select>
 
     <select id="selectRepairById" resultType="com.gdpu.VO.ShowRepairListVo">
@@ -91,6 +101,8 @@
         WHERE
             `repair`.id=#{id} and `repair`.worker_id=wxUser_openid
     </select>
+
+
 
 
 </mapper>

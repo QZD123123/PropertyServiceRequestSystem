@@ -13,4 +13,6 @@ import com.gdpu.utils.Result;
 public interface WorkerService extends IService<Worker> {
 
     Result workerLogin(WorkerLoginInfo workerLoginInfo);
+
+    Result deleteWxuserByOpenid(Integer openid);
 }

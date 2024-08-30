@@ -38,5 +38,5 @@ jwt:
 
 xcx:
   wechat:
-    appid: appid
-    secret: secret
+    appid: appid..
+    secret: secret..

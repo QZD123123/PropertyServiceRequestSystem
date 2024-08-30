@@ -9,10 +9,12 @@
             <result property="workerPhone" column="worker_phone" jdbcType="VARCHAR"/>
             <result property="workerName" column="worker_name" jdbcType="VARCHAR"/>
             <result property="isUsed" column="is_used" jdbcType="VARCHAR"/>
+            <result property="normalLastAssigned" column="normal_last_assigned" jdbcType="TIMESTAMP"/>
+            <result property="emergencyLastAssigned" column="emergency_last_assigned" jdbcType="TIMESTAMP"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        worker_id,worker_phone,worker_name,is_used
+        worker_id,worker_phone,worker_name,is_used,normal_last_assigned,emergency_last_assigned
     </sql>
 
     <update id="updateByNameNumber">
@@ -22,8 +24,47 @@
         where worker_phone=#{workerPhone} and worker_name=#{workerName}
     </update>
 
+    <update id="noUsed">
+        update worker
+        set
+            is_used = '0'
+        where worker_phone=#{phone} and worker_name=#{name}
+    </update>
+
+    <update id="updateNormalLastTime">
+        UPDATE worker
+        SET normal_last_assigned = CURRENT_TIMESTAMP
+        WHERE worker_id = #{workerId};
+    </update>
+
+    <update id="updateEmergencyLastTime">
+        UPDATE worker
+        SET emergency_last_assigned = CURRENT_TIMESTAMP
+        WHERE worker_id = #{workerId};
+    </update>
+
+
     <select id="findWorker" resultType="com.gdpu.pojo.Worker">
         select * from worker where worker_phone=#{workerPhone} and worker_name=#{workerName}
     </select>
+
+    <select id="selectNormalLastWorkerId" resultType="com.gdpu.VO.NormalVo">
+        SELECT wxuser.wxUser_openid,worker.worker_id
+        FROM worker
+                 JOIN wxuser ON worker.worker_phone = wxuser.phone
+        WHERE worker.is_used = '1'
+        ORDER BY worker.normal_last_assigned
+            LIMIT 1
+    </select>
+
+    <select id="selectEmergencyLastWorkerId" resultType="com.gdpu.VO.NormalVo">
+        SELECT wxuser.wxUser_openid,worker.worker_id
+        FROM worker
+                 JOIN wxuser ON worker.worker_phone = wxuser.phone
+        WHERE worker.is_used = '1'
+        ORDER BY worker.emergency_last_assigned
+            LIMIT 1
+    </select>
+
 
 </mapper>
