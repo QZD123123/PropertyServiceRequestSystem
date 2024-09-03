@@ -40,11 +40,11 @@ public class RepairServiceImpl extends ServiceImpl<RepairMapper, Repair>
 
     @Override
     @Transactional
-    public Result addNormalRepairByOpenid(Integer openid, AddRepairInfo addRepairInfo) {
+    public Result addNormalRepairByOpenid(String openid, AddRepairInfo addRepairInfo) {
 
         NormalVo normalLastWorkerId = workerMapper.selectNormalLastWorkerId();
         System.out.println("normalLastWorkerId = " + normalLastWorkerId);
-        int workerOpenId = normalLastWorkerId.getWxUserOpenid();
+        String workerOpenId = normalLastWorkerId.getWxUserOpenid();
 
         int workerId = normalLastWorkerId.getWorkerId();
 
@@ -69,11 +69,11 @@ public class RepairServiceImpl extends ServiceImpl<RepairMapper, Repair>
 
     @Override
     @Transactional
-    public Result addEmergencyRepairByOpenid(Integer openid, AddRepairInfo addRepairInfo) {
+    public Result addEmergencyRepairByOpenid(String openid, AddRepairInfo addRepairInfo) {
 
         NormalVo emergencyLastWorkerId = workerMapper.selectEmergencyLastWorkerId();
 
-        int workerOpenId = emergencyLastWorkerId.getWxUserOpenid();
+        String workerOpenId = emergencyLastWorkerId.getWxUserOpenid();
 
         int workerId = emergencyLastWorkerId.getWorkerId();
 
@@ -95,31 +95,38 @@ public class RepairServiceImpl extends ServiceImpl<RepairMapper, Repair>
     }
 
     @Override
-    public Result studentShowRepairListByOpenid(Integer openid) {
+    public Result studentShowNoFinishRepairListByOpenid(String openid) {
 
-        //获取属于你的报修列表
-        List<ShowRepairListVo> list = repairMapper.studentShowRepairListByOpenid(openid);
+        //获取属于学生的未完成报修列表
+        List<ShowRepairListVo> list = repairMapper.studentShowNoFinishRepairListByOpenid(openid);
         return Result.ok(list);
 
     }
 
+    @Override
+    public Result studentShowFinishRepairListByOpenid(String openid) {
+        //获取属于学生的已完成报修列表
+        List<ShowRepairListVo> list = repairMapper.studentShowFinishRepairListByOpenid(openid);
+        return Result.ok(list);
+    }
+
 
     @Override
-    public Result workerShowNormalRepairListByOpenid(Integer openid) {
+    public Result workerShowNormalRepairListByOpenid(String openid) {
         //获取属于你的普通报修列表
         List<WorkerShowRepairListVo> list = repairMapper.workerShowNormalRepairListByOpenid(openid);
         return Result.ok(list);
     }
 
     @Override
-    public Result workerShowEmergencyRepairListByOpenid(Integer openid) {
+    public Result workerShowEmergencyRepairListByOpenid(String openid) {
         //获取属于你的紧急报修列表
         List<WorkerShowRepairListVo> list = repairMapper.workerShowEmergencyRepairListByOpenid(openid);
         return Result.ok(list);
     }
 
     @Override
-    public Result workerOrderCount(Integer openid) {
+    public Result workerOrderCount(String openid) {
 
         int noFinish = repairMapper.workerNoFinish(openid);
         int Finish = repairMapper.workerTotalFinish(openid);
@@ -131,7 +138,7 @@ public class RepairServiceImpl extends ServiceImpl<RepairMapper, Repair>
     }
 
     @Override
-    public Result studentOrderCount(Integer openid) {
+    public Result studentOrderCount(String openid) {
 
         int noFinish = repairMapper.studentNoFinish(openid);
         int Finish = repairMapper.studentTotalFinish(openid);

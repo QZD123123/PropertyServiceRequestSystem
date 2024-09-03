@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class NormalVo {
 
-    private Integer wxUserOpenid;
+    private String wxUserOpenid;
 
     private Integer workerId;
 }

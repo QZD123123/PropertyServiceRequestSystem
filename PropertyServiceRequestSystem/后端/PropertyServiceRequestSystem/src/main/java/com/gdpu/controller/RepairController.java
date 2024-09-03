@@ -18,35 +18,42 @@ public class RepairController {
 
     @PreAuthorize("hasAnyAuthority('student')")
     @PostMapping("addNormalRepair/{openid}")
-    public Result addNormalRepairByOpenid(@PathVariable Integer openid, @RequestBody AddRepairInfo addRepairInfo){
+    public Result addNormalRepairByOpenid(@PathVariable String openid, @RequestBody AddRepairInfo addRepairInfo){
         Result result = repairService.addNormalRepairByOpenid(openid,addRepairInfo);
         return result;
     }
 
     @PreAuthorize("hasAnyAuthority('student')")
     @PostMapping("addEmergencyRepair/{openid}")
-    public Result addEmergencyRepairByOpenid(@PathVariable Integer openid, @RequestBody AddRepairInfo addRepairInfo){
+    public Result addEmergencyRepairByOpenid(@PathVariable String openid, @RequestBody AddRepairInfo addRepairInfo){
         Result result = repairService.addEmergencyRepairByOpenid(openid,addRepairInfo);
         return result;
     }
 
     @PreAuthorize("hasAnyAuthority('student')")
-    @GetMapping("student/{openid}")
-    public Result studentShowRepairListByOpenid(@PathVariable Integer openid){
-        Result result = repairService.studentShowRepairListByOpenid(openid);
+    @GetMapping("noFinish/{openid}")
+    public Result studentShowNoFinishRepairListByOpenid(@PathVariable String openid){
+        Result result = repairService.studentShowNoFinishRepairListByOpenid(openid);
+        return result;
+    }
+
+    @PreAuthorize("hasAnyAuthority('student')")
+    @GetMapping("finish/{openid}")
+    public Result studentShowFinishRepairListByOpenid(@PathVariable String openid){
+        Result result = repairService.studentShowFinishRepairListByOpenid(openid);
         return result;
     }
 
     @PreAuthorize("hasAnyAuthority('worker')")
     @GetMapping("worker/normal/{openid}")
-    public Result workerShowNormalRepairListByOpenid(@PathVariable Integer openid){
+    public Result workerShowNormalRepairListByOpenid(@PathVariable String openid){
         Result result = repairService.workerShowNormalRepairListByOpenid(openid);
         return result;
     }
 
     @PreAuthorize("hasAnyAuthority('worker')")
     @GetMapping("worker/emergency/{openid}")
-    public Result workerShowEmergencyRepairListByOpenid(@PathVariable Integer openid){
+    public Result workerShowEmergencyRepairListByOpenid(@PathVariable String openid){
         Result result = repairService.workerShowEmergencyRepairListByOpenid(openid);
         return result;
     }
@@ -59,7 +66,7 @@ public class RepairController {
         return result;
     }
 
-    @PreAuthorize("hasAnyAuthority('worker')")
+    @PreAuthorize("hasAnyAuthority('student')")
     @PatchMapping("{id}")
     public Result finishRepairById(@PathVariable Integer id){
         Result result = repairService.finishRepairById(id);
@@ -75,14 +82,14 @@ public class RepairController {
 
     @PreAuthorize("hasAnyAuthority('worker')")
     @GetMapping("workerOrderCount/{openid}")
-    public Result workerOrderCount(@PathVariable Integer openid){
+    public Result workerOrderCount(@PathVariable String openid){
         Result result = repairService.workerOrderCount(openid);
         return result;
     }
 
     @PreAuthorize("hasAnyAuthority('student')")
     @GetMapping("studentOrderCount/{openid}")
-    public Result studentOrderCount(@PathVariable Integer openid){
+    public Result studentOrderCount(@PathVariable String openid){
         Result result = repairService.studentOrderCount(openid);
         return result;
     }

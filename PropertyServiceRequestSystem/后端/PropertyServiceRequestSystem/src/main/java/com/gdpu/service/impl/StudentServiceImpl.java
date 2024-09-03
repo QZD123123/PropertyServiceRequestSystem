@@ -101,9 +101,9 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student>
 
     @Override
     @Transactional
-    public Result deleteWxuserByOpenid(Integer openid) {
+    public Result deleteWxuserByOpenid(String openid) {
 
-        Wxuser wxuser = wxuserMapper.findByOpenid(String.valueOf(openid));
+        Wxuser wxuser = wxuserMapper.findByOpenid(openid);
 
         int noUsed = studentMapper.noUsed(wxuser.getPhone(), wxuser.getName());
 

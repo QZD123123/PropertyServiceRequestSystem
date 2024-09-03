@@ -6,8 +6,8 @@
 
     <resultMap id="BaseResultMap" type="com.gdpu.pojo.Repair">
             <id property="id" column="id" jdbcType="INTEGER"/>
-            <result property="workerId" column="worker_id" jdbcType="INTEGER"/>
-            <result property="studentId" column="student_id" jdbcType="INTEGER"/>
+            <result property="workerId" column="worker_id" jdbcType="VARCHAR"/>
+            <result property="studentId" column="student_id" jdbcType="VARCHAR"/>
             <result property="type" column="type" jdbcType="VARCHAR"/>
             <result property="repairDate" column="repair_Date" jdbcType="TIMESTAMP"/>
             <result property="address" column="address" jdbcType="VARCHAR"/>
@@ -61,12 +61,20 @@
         delete from `repair` where id = #{id}
     </delete>
 
-    <select id="studentShowRepairListByOpenid" resultType="com.gdpu.VO.ShowRepairListVo">
+    <select id="studentShowNoFinishRepairListByOpenid" resultType="com.gdpu.VO.ShowRepairListVo">
         select
             id,type,applicant_name,mobile,address,description,
             repair_Date,wxuser.`name` as workerName,finish_Time
         from `repair`,`wxuser`
-        where `repair`.worker_id=wxuser.wxUser_openid and role='worker' and student_id = #{openid}
+        where `repair`.worker_id=wxuser.wxUser_openid and role='worker' and student_id = #{openid} and finish_Time is null
+    </select>
+
+    <select id="studentShowFinishRepairListByOpenid" resultType="com.gdpu.VO.ShowRepairListVo">
+        select
+            id,type,applicant_name,mobile,address,description,
+            repair_Date,wxuser.`name` as workerName,finish_Time
+        from `repair`,`wxuser`
+        where `repair`.worker_id=wxuser.wxUser_openid and role='worker' and student_id = #{openid} and finish_Time is not null
     </select>
 
     <select id="workerShowNormalRepairListByOpenid" resultType="com.gdpu.VO.WorkerShowRepairListVo">
@@ -141,6 +149,7 @@
             student_id = #{openid}
           AND finish_Time IS NOT NULL
     </select>
+
 
 
 </mapper>

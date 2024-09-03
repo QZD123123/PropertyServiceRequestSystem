@@ -16,9 +16,9 @@ import lombok.Data;
 public class Repair implements Serializable {
     private Integer id;
 
-    private Integer workerId;
+    private String workerId;
 
-    private Integer studentId;
+    private String studentId;
 
     private String type;
 

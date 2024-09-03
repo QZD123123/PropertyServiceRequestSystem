@@ -28,7 +28,7 @@ public class WorkerController {
 
     @PreAuthorize("hasAnyAuthority('worker')")
     @DeleteMapping("{openid}")
-    public Result deleteWxuserByOpenid(@PathVariable Integer openid){
+    public Result deleteWxuserByOpenid(@PathVariable String openid){
         Result result = workerService.deleteWxuserByOpenid(openid);
         return result;
     }

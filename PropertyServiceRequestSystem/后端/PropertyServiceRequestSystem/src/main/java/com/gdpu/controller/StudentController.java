@@ -26,7 +26,7 @@ public class StudentController {
 
     @PreAuthorize("hasAnyAuthority('student')")
     @DeleteMapping("{openid}")
-    public Result deleteWxuserByOpenid(@PathVariable Integer openid){
+    public Result deleteWxuserByOpenid(@PathVariable String openid){
         Result result = studentService.deleteWxuserByOpenid(openid);
         return result;
     }

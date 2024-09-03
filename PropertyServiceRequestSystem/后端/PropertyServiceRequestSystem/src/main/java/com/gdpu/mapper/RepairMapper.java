@@ -18,15 +18,15 @@ import java.util.List;
 public interface RepairMapper extends BaseMapper<Repair> {
 
 
-    int addNormalRepairByOpenid(@Param("openid") Integer openid,@Param("addRepairInfo") AddRepairInfo addRepairInfo,@Param("workerOpenId") Integer workerOpenId);
+    int addNormalRepairByOpenid(@Param("openid") String openid,@Param("addRepairInfo") AddRepairInfo addRepairInfo,@Param("workerOpenId") String workerOpenId);
 
-    int addEmergencyRepairByOpenid(@Param("openid") Integer openid,@Param("addRepairInfo") AddRepairInfo addRepairInfo,@Param("workerOpenId") Integer workerOpenId);
+    int addEmergencyRepairByOpenid(@Param("openid") String openid,@Param("addRepairInfo") AddRepairInfo addRepairInfo,@Param("workerOpenId") String workerOpenId);
 
-    List<ShowRepairListVo> studentShowRepairListByOpenid(@Param("openid") Integer openid);
+    List<ShowRepairListVo> studentShowNoFinishRepairListByOpenid(@Param("openid") String openid);
 
-    List<WorkerShowRepairListVo> workerShowNormalRepairListByOpenid(@Param("openid") Integer openid);
+    List<WorkerShowRepairListVo> workerShowNormalRepairListByOpenid(@Param("openid") String openid);
 
-    List<WorkerShowRepairListVo> workerShowEmergencyRepairListByOpenid(@Param("openid") Integer openid);
+    List<WorkerShowRepairListVo> workerShowEmergencyRepairListByOpenid(@Param("openid") String openid);
 
     ShowRepairListVo selectRepairById(@Param("id") Integer id);
 
@@ -35,13 +35,15 @@ public interface RepairMapper extends BaseMapper<Repair> {
     int deleteRepairById(@Param("id") Integer id);
 
 
-    int workerNoFinish(@Param("openid") Integer openid);
+    int workerNoFinish(@Param("openid") String openid);
 
-    int workerTotalFinish(@Param("openid") Integer openid);
+    int workerTotalFinish(@Param("openid") String openid);
 
-    int studentNoFinish(@Param("openid") Integer openid);
+    int studentNoFinish(@Param("openid") String openid);
 
-    int studentTotalFinish(@Param("openid") Integer openid);
+    int studentTotalFinish(@Param("openid") String openid);
+
+    List<ShowRepairListVo> studentShowFinishRepairListByOpenid(@Param("openid") String openid);
 }
 
 

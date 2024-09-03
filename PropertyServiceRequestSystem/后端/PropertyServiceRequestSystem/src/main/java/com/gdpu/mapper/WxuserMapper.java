@@ -22,7 +22,7 @@ public interface WxuserMapper extends BaseMapper<Wxuser> {
 
     int UpdateWxuser(@Param("wxuser") Wxuser wxuser);
 
-    int deleteByOpenid(@Param("openid") Integer openid);
+    int deleteByOpenid(@Param("openid") String openid);
 }
 
 

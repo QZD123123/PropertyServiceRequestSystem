@@ -104,8 +104,8 @@ public class WorkerServiceImpl extends ServiceImpl<WorkerMapper, Worker>
 
     @Override
     @Transactional
-    public Result deleteWxuserByOpenid(Integer openid) {
-        Wxuser wxuser = wxuserMapper.findByOpenid(String.valueOf(openid));
+    public Result deleteWxuserByOpenid(String openid) {
+        Wxuser wxuser = wxuserMapper.findByOpenid(openid);
 
         int noUsed = workerMapper.noUsed(wxuser.getPhone(), wxuser.getName());
 

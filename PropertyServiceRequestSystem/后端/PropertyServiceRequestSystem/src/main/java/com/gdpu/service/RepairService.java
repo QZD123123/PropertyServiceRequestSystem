@@ -13,14 +13,12 @@ import com.gdpu.utils.Result;
 public interface RepairService extends IService<Repair> {
 
 
-    Result addNormalRepairByOpenid(Integer openid, AddRepairInfo addRepairInfo);
+    Result addNormalRepairByOpenid(String openid, AddRepairInfo addRepairInfo);
 
-    Result studentShowRepairListByOpenid(Integer openid);
-
-    Result addEmergencyRepairByOpenid(Integer openid, AddRepairInfo addRepairInfo);
+    Result addEmergencyRepairByOpenid(String openid, AddRepairInfo addRepairInfo);
 
 
-    Result workerShowNormalRepairListByOpenid(Integer openid);
+    Result workerShowNormalRepairListByOpenid(String openid);
 
     Result selectRepairById(Integer id);
 
@@ -28,10 +26,14 @@ public interface RepairService extends IService<Repair> {
 
     Result deleteRepairById(Integer id);
 
-    Result workerShowEmergencyRepairListByOpenid(Integer openid);
+    Result workerShowEmergencyRepairListByOpenid(String openid);
 
 
-    Result workerOrderCount(Integer openid);
+    Result workerOrderCount(String openid);
 
-    Result studentOrderCount(Integer openid);
+    Result studentOrderCount(String openid);
+
+    Result studentShowNoFinishRepairListByOpenid(String openid);
+
+    Result studentShowFinishRepairListByOpenid(String openid);
 }
