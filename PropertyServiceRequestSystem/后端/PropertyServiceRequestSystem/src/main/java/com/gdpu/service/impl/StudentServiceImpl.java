@@ -1,6 +1,7 @@
 package com.gdpu.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.gdpu.DTO.AddPersonInfo;
 import com.gdpu.DTO.AddRepairInfo;
 import com.gdpu.DTO.StudentLoginInfo;
 import com.gdpu.VO.StudentLoginVO;
@@ -119,6 +120,24 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student>
         }
 
     }
+
+    @Override
+    public Result addStudent(AddPersonInfo addPersonInfo) {
+        int row = studentMapper.addStudent(addPersonInfo);
+
+        Map data = new HashMap();
+        if (row == 1){
+            data.put("tip","添加学生成功");
+            return Result.ok(data);
+        }else {
+            data.put("tip","添加学生失败");
+            return Result.build(data,Server_error);
+        }
+
+    }
+
+
+
 }
 
 

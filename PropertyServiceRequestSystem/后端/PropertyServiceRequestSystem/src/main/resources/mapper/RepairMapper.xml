@@ -57,6 +57,10 @@
         where id = #{id}
     </update>
 
+    <update id="updateRepair">
+        UPDATE repair SET worker_id = #{workerId} WHERE id = #{id}
+    </update>
+
     <delete id="deleteRepairById">
         delete from `repair` where id = #{id}
     </delete>
@@ -73,8 +77,8 @@
         select
             id,type,applicant_name,mobile,address,description,
             repair_Date,wxuser.`name` as workerName,finish_Time
-        from `repair`,`wxuser`
-        where `repair`.worker_id=wxuser.wxUser_openid and role='worker' and student_id = #{openid} and finish_Time is not null
+        from `finished_repair`,`wxuser`
+        where `finished_repair`.worker_id=wxuser.wxUser_openid and role='worker' and student_id = #{openid} and finish_Time is not null
     </select>
 
     <select id="workerShowNormalRepairListByOpenid" resultType="com.gdpu.VO.WorkerShowRepairListVo">
@@ -120,16 +124,6 @@
           AND finish_Time IS NULL
     </select>
 
-    <select id="workerTotalFinish" resultType="java.lang.Integer">
-        SELECT
-            count(*)
-        FROM
-            `repair`
-        WHERE
-            worker_id = #{openid}
-          AND finish_Time IS NOT NULL
-    </select>
-
     <select id="studentNoFinish" resultType="java.lang.Integer">
         SELECT
             count(*)
@@ -140,16 +134,34 @@
           AND finish_Time IS NULL
     </select>
 
-    <select id="studentTotalFinish" resultType="java.lang.Integer">
+    <select id="selectAllNoFinishList" resultType="com.gdpu.VO.ShowRepairListVo">
         SELECT
-            count(*)
+            id,
+            type,
+            applicant_name,
+            mobile,
+            address,
+            description,
+            repair_Date,
+            wxuser.`name` as workerName,
+            finish_Time
         FROM
-            `repair`
+            `repair` , `wxuser`
         WHERE
-            student_id = #{openid}
-          AND finish_Time IS NOT NULL
+            `repair`.worker_id=wxUser_openid AND finish_Time IS NULL
     </select>
 
+    <select id="findRepairById" resultType="com.gdpu.pojo.Repair">
+        select * from repair where id = #{id};
+    </select>
+
+    <select id="findNormalPendingRepairs" resultType="com.gdpu.pojo.Repair">
+        SELECT * FROM repair WHERE type = 'normal' AND finish_time IS NULL ORDER BY id
+    </select>
+
+    <select id="findEmergencyPendingRepairs" resultType="com.gdpu.pojo.Repair">
+        SELECT * FROM repair WHERE type = 'emergency' AND finish_time IS NULL ORDER BY id
+    </select>
 
 
 </mapper>

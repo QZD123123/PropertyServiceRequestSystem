@@ -1,5 +1,6 @@
 package com.gdpu.mapper;
 
+import com.gdpu.DTO.AddPersonInfo;
 import com.gdpu.pojo.Student;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
@@ -24,6 +25,8 @@ public interface StudentMapper extends BaseMapper<Student> {
     int updateByNameNumber(@Param("studentId") String studentId,@Param("studentName") String studentName);
 
     int noUsed(@Param("phone") String phone,@Param("name") String name);
+
+    int addStudent(AddPersonInfo addPersonInfo);
 }
 
 

@@ -36,4 +36,6 @@ public interface RepairService extends IService<Repair> {
     Result studentShowNoFinishRepairListByOpenid(String openid);
 
     Result studentShowFinishRepairListByOpenid(String openid);
+
+    Result selectAllNoFinishList();
 }

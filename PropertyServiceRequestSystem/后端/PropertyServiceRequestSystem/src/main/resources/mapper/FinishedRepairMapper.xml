@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gdpu.mapper.FinishedRepairMapper">
+
+    <resultMap id="BaseResultMap" type="com.gdpu.pojo.FinishedRepair">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="workerId" column="worker_id" jdbcType="VARCHAR"/>
+            <result property="studentId" column="student_id" jdbcType="VARCHAR"/>
+            <result property="type" column="type" jdbcType="OTHER"/>
+            <result property="repairDate" column="repair_Date" jdbcType="TIMESTAMP"/>
+            <result property="address" column="address" jdbcType="VARCHAR"/>
+            <result property="description" column="description" jdbcType="VARCHAR"/>
+            <result property="applicantName" column="applicant_name" jdbcType="VARCHAR"/>
+            <result property="mobile" column="mobile" jdbcType="VARCHAR"/>
+            <result property="finishTime" column="finish_Time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,worker_id,student_id,
+        type,repair_Date,address,
+        description,applicant_name,mobile,
+        finish_Time
+    </sql>
+
+    <insert id="insertCompletedRepair">
+        INSERT INTO finished_repair (worker_id, student_id, type, repair_Date, address, description, applicant_name, mobile, finish_Time)
+        VALUES (#{workerId}, #{studentId}, #{type}, #{repairDate}, #{address}, #{description}, #{applicantName}, #{mobile}, #{finishTime})
+    </insert>
+
+    <select id="studentTotalFinish" resultType="java.lang.Integer">
+        SELECT
+            count(*)
+        FROM
+            `finished_repair`
+        WHERE
+            student_id = #{openid}
+          AND finish_Time IS NOT NULL
+    </select>
+
+    <select id="workerTotalFinish" resultType="java.lang.Integer">
+        SELECT
+            count(*)
+        FROM
+            `finished_repair`
+        WHERE
+            worker_id = #{openid}
+          AND finish_Time IS NOT NULL
+    </select>
+</mapper>

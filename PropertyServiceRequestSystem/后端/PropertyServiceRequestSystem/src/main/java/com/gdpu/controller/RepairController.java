@@ -93,4 +93,11 @@ public class RepairController {
         Result result = repairService.studentOrderCount(openid);
         return result;
     }
+
+    @PreAuthorize("hasAnyAuthority('admin')")
+    @GetMapping("noFinish")
+    public Result selectAllNoFinishList(){
+        Result result = repairService.selectAllNoFinishList();
+        return result;
+    }
 }

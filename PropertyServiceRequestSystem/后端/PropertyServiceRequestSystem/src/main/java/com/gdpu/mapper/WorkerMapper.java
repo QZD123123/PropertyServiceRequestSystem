@@ -1,6 +1,8 @@
 package com.gdpu.mapper;
 
+import com.gdpu.DTO.AddPersonInfo;
 import com.gdpu.VO.NormalVo;
+import com.gdpu.VO.workerListVo;
 import com.gdpu.pojo.Worker;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.*;
@@ -29,6 +31,18 @@ public interface WorkerMapper extends BaseMapper<Worker> {
     NormalVo selectEmergencyLastWorkerId();
 
     int updateEmergencyLastTime(@Param("workerId") int workerId);
+
+    List<workerListVo> selectAllWorker();
+
+    int canWork(@Param("workerId") String workerId);
+
+    int canNotWork(@Param("workerId") String workerId);
+
+    void updateWorkerCanWork(@Param("id") String id,@Param("canWork") String canWork);
+
+    List<Worker> findAvailableWorkers();
+
+    int addWorker(AddPersonInfo addPersonInfo);
 }
 
 

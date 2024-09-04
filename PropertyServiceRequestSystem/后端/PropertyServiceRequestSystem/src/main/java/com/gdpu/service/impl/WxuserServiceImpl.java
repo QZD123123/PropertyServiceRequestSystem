@@ -81,7 +81,6 @@ public class WxuserServiceImpl extends ServiceImpl<WxuserMapper, Wxuser>
                     .wxuserSessionkey(sessionKey)
                     .build();
             int row = wxuserMapper.insertNewWxuser(wxuser);
-            System.out.println("row = " + row);
         }
 
         String token = jwtHelper.createToken(Long.valueOf(wxuser.getWxuserId()));

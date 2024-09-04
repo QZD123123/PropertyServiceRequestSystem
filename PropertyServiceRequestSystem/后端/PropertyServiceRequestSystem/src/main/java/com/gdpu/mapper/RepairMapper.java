@@ -34,16 +34,23 @@ public interface RepairMapper extends BaseMapper<Repair> {
 
     int deleteRepairById(@Param("id") Integer id);
 
-
     int workerNoFinish(@Param("openid") String openid);
-
-    int workerTotalFinish(@Param("openid") String openid);
 
     int studentNoFinish(@Param("openid") String openid);
 
-    int studentTotalFinish(@Param("openid") String openid);
-
     List<ShowRepairListVo> studentShowFinishRepairListByOpenid(@Param("openid") String openid);
+
+    List<ShowRepairListVo> selectAllNoFinishList();
+
+    Repair findRepairById(@Param("id") Integer id);
+
+    List<Repair> findNormalPendingRepairs();
+
+    List<Repair> findEmergencyPendingRepairs();
+
+    void updateRepair(Repair repair);
+
+
 }
 
 

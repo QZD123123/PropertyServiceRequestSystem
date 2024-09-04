@@ -15,6 +15,11 @@
         student_id,student_number,student_name,is_used
     </sql>
 
+    <insert id="addStudent">
+        INSERT INTO student ( student_name, student_number )
+        VALUES( #{name}, #{phone} )
+    </insert>
+
     <update id="updateByNameNumber">
         update student
         set

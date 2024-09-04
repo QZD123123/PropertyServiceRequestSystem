@@ -1,5 +1,6 @@
 package com.gdpu.service;
 
+import com.gdpu.DTO.AddPersonInfo;
 import com.gdpu.DTO.AddRepairInfo;
 import com.gdpu.DTO.StudentLoginInfo;
 import com.gdpu.pojo.Student;
@@ -17,4 +18,6 @@ public interface StudentService extends IService<Student> {
 
 
     Result deleteWxuserByOpenid(String openid);
+
+    Result addStudent(AddPersonInfo addPersonInfo);
 }

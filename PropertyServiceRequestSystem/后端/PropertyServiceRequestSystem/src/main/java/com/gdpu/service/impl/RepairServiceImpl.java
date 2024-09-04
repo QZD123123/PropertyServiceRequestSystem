@@ -6,7 +6,9 @@ import com.gdpu.VO.NormalVo;
 import com.gdpu.VO.OrderCountVo;
 import com.gdpu.VO.ShowRepairListVo;
 import com.gdpu.VO.WorkerShowRepairListVo;
+import com.gdpu.mapper.FinishedRepairMapper;
 import com.gdpu.mapper.WorkerMapper;
+import com.gdpu.pojo.FinishedRepair;
 import com.gdpu.pojo.Repair;
 import com.gdpu.service.RepairService;
 import com.gdpu.mapper.RepairMapper;
@@ -37,13 +39,15 @@ public class RepairServiceImpl extends ServiceImpl<RepairMapper, Repair>
     @Autowired
     private WorkerMapper workerMapper;
 
+    @Autowired
+    private FinishedRepairMapper finishedRepairMapper;
+
 
     @Override
     @Transactional
     public Result addNormalRepairByOpenid(String openid, AddRepairInfo addRepairInfo) {
 
         NormalVo normalLastWorkerId = workerMapper.selectNormalLastWorkerId();
-        System.out.println("normalLastWorkerId = " + normalLastWorkerId);
         String workerOpenId = normalLastWorkerId.getWxUserOpenid();
 
         int workerId = normalLastWorkerId.getWorkerId();
@@ -52,8 +56,6 @@ public class RepairServiceImpl extends ServiceImpl<RepairMapper, Repair>
 
         int updateNormalLastTime = workerMapper.updateNormalLastTime(workerId);
 
-        System.out.println("row = " + row);
-        System.out.println("updateNormalLastTime = " + updateNormalLastTime);
 
         Map data = new HashMap();
 
@@ -110,6 +112,13 @@ public class RepairServiceImpl extends ServiceImpl<RepairMapper, Repair>
         return Result.ok(list);
     }
 
+    @Override
+    public Result selectAllNoFinishList() {
+        //所有订单
+        List<ShowRepairListVo> list = repairMapper.selectAllNoFinishList();
+        return Result.ok(list);
+    }
+
 
     @Override
     public Result workerShowNormalRepairListByOpenid(String openid) {
@@ -129,7 +138,7 @@ public class RepairServiceImpl extends ServiceImpl<RepairMapper, Repair>
     public Result workerOrderCount(String openid) {
 
         int noFinish = repairMapper.workerNoFinish(openid);
-        int Finish = repairMapper.workerTotalFinish(openid);
+        int Finish = finishedRepairMapper.workerTotalFinish(openid);
         OrderCountVo orderCountVo = OrderCountVo.builder()
                 .noFinish(noFinish)
                 .Finish(Finish)
@@ -141,7 +150,7 @@ public class RepairServiceImpl extends ServiceImpl<RepairMapper, Repair>
     public Result studentOrderCount(String openid) {
 
         int noFinish = repairMapper.studentNoFinish(openid);
-        int Finish = repairMapper.studentTotalFinish(openid);
+        int Finish = finishedRepairMapper.studentTotalFinish(openid);
         OrderCountVo orderCountVo = OrderCountVo.builder()
                 .noFinish(noFinish)
                 .Finish(Finish)
@@ -156,15 +165,35 @@ public class RepairServiceImpl extends ServiceImpl<RepairMapper, Repair>
     }
 
     @Override
+    @Transactional
     public Result finishRepairById(Integer id) {
+        // 更新 repair 表的记录，将 finish_Time 设置为当前时间
         int row = repairMapper.finishRepairById(id);
-        Map data = new HashMap();
-        if (row == 1){
-            data.put("tip","完成订单");
-            return Result.ok(data);
-        }else{
-            data.put("tip","完成订单出现问题");
-            return Result.build(data,Server_error);
+
+        Map data = new HashMap<>();
+        if (row == 1) {
+            // 从 repair 表中获取更新后的记录
+            Repair completedRepair = repairMapper.findRepairById(id);
+
+            if (completedRepair != null) {
+                // 将完成的记录插入到 finished_repair 表
+                finishedRepairMapper.insertCompletedRepair(completedRepair);
+
+                // 从 repair 表中删除已完成的记录
+                repairMapper.deleteRepairById(id);
+
+                // 返回成功结果
+                data.put("tip", "完成订单");
+                return Result.ok(data);
+            } else {
+                // 记录未找到，处理异常情况
+                data.put("tip", "订单完成后未找到记录");
+                return Result.build(data, Server_error);
+            }
+        } else {
+            // 更新失败，处理异常情况
+            data.put("tip", "完成订单出现问题");
+            return Result.build(data, Server_error);
         }
     }
 

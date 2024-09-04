@@ -17,6 +17,11 @@
         worker_id,worker_phone,worker_name,is_used,normal_last_assigned,emergency_last_assigned
     </sql>
 
+    <insert id="addWorker">
+        INSERT INTO worker ( worker_name, worker_phone )
+        VALUES( #{name}, #{phone} )
+    </insert>
+
     <update id="updateByNameNumber">
         update worker
         set
@@ -43,6 +48,24 @@
         WHERE worker_id = #{workerId};
     </update>
 
+    <update id="canWork">
+        update worker
+        SET can_work = 'yes'
+        WHERE worker_id = #{workerId};
+    </update>
+
+    <update id="canNotWork">
+        update worker
+        SET can_work = 'no'
+        WHERE worker_id = #{workerId};
+    </update>
+
+    <update id="updateWorkerCanWork">
+        update worker
+        SET can_work = #{canWork}
+        WHERE worker_id = #{id};
+    </update>
+
 
     <select id="findWorker" resultType="com.gdpu.pojo.Worker">
         select * from worker where worker_phone=#{workerPhone} and worker_name=#{workerName}
@@ -52,7 +75,7 @@
         SELECT wxuser.wxUser_openid,worker.worker_id
         FROM worker
                  JOIN wxuser ON worker.worker_phone = wxuser.phone
-        WHERE worker.is_used = '1'
+        WHERE worker.is_used = '1' AND worker.can_work = 'yes'
         ORDER BY worker.normal_last_assigned
             LIMIT 1
     </select>
@@ -61,9 +84,28 @@
         SELECT wxuser.wxUser_openid,worker.worker_id
         FROM worker
                  JOIN wxuser ON worker.worker_phone = wxuser.phone
-        WHERE worker.is_used = '1'
+        WHERE worker.is_used = '1' AND worker.can_work = 'yes'
         ORDER BY worker.emergency_last_assigned
             LIMIT 1
+    </select>
+
+    <select id="selectAllWorker" resultType="com.gdpu.VO.workerListVo">
+        SELECT
+            worker_id AS id,
+            worker_name AS name,
+            CASE
+                WHEN can_work = 'yes' THEN '工作'
+                WHEN can_work = 'no' THEN '休息'
+                ELSE '未知'  -- 如果 can_work 的值不在预期范围内，可以返回 '未知'
+                END AS state
+        FROM
+            worker,wxuser
+        WHERE wxuser.phone=worker.worker_phone and wxuser.role='worker' and is_used='1';
+
+    </select>
+
+    <select id="findAvailableWorkers" resultType="com.gdpu.pojo.Worker">
+        SELECT * FROM worker WHERE can_work = 'yes' AND is_used = '1' ORDER BY normal_last_assigned, emergency_last_assigned
     </select>
 
 

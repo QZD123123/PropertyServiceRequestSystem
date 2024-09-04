@@ -1,6 +1,8 @@
 package com.gdpu.service;
 
+import com.gdpu.DTO.AddPersonInfo;
 import com.gdpu.DTO.WorkerLoginInfo;
+import com.gdpu.DTO.whoCanWorkDTO;
 import com.gdpu.pojo.Worker;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.gdpu.utils.Result;
@@ -15,4 +17,16 @@ public interface WorkerService extends IService<Worker> {
     Result workerLogin(WorkerLoginInfo workerLoginInfo);
 
     Result deleteWxuserByOpenid(String openid);
+
+    Result selectAllWorker();
+
+    Result canWork(String workerId);
+
+    Result canNotWork(String workerId);
+
+    Result whoCanWork(whoCanWorkDTO[] workers);
+
+    Result adminLogin(WorkerLoginInfo workerLoginInfo);
+
+    Result addWorker(AddPersonInfo addPersonInfo);
 }

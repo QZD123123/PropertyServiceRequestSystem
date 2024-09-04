@@ -1,5 +1,6 @@
 package com.gdpu.controller;
 
+import com.gdpu.DTO.AddPersonInfo;
 import com.gdpu.DTO.AddRepairInfo;
 import com.gdpu.DTO.StudentLoginInfo;
 import com.gdpu.service.StudentService;
@@ -28,6 +29,13 @@ public class StudentController {
     @DeleteMapping("{openid}")
     public Result deleteWxuserByOpenid(@PathVariable String openid){
         Result result = studentService.deleteWxuserByOpenid(openid);
+        return result;
+    }
+
+    @PreAuthorize("hasAnyAuthority('admin')")
+    @PostMapping("addStudent")
+    public Result addStudent(@RequestBody AddPersonInfo addPersonInfo){
+        Result result = studentService.addStudent(addPersonInfo);
         return result;
     }
 
